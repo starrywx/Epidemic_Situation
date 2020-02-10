@@ -1,10 +1,13 @@
-package com.example.epidemicsituation;
+package com.example.epidemicsituation.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.epidemicsituation.Base.BaseActivity;
+import com.example.epidemicsituation.R;
+
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
