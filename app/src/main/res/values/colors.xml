@@ -10,6 +10,18 @@
     <color name = "indicator_login">#5CA2FA</color>
     <color name = "indicator_register">#5CA2FA</color>
 
+    <color name = "editText_underline_normal">#E6E6E6</color>
+    <color name = "editText_underline_chosen">#8CBCF9</color>
+    <color name = "editText_underline_error">#EA6F6F</color>
+    <color name = "disable_get_verification_disable">#999999</color>
+    <color name = "able_get_verification_disable">#5CA2FA</color>
+
+
+
+
+
+
+
 
     <color name="white">#FFFFFF</color> <!--白色 -->
     <color name="ivory">#FFFFF0</color> <!--象牙色 -->

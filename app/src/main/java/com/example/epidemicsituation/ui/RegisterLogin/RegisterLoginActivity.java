@@ -5,19 +5,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 public class RegisterLoginActivity extends BaseActivity {
 
@@ -60,6 +69,12 @@ public class RegisterLoginActivity extends BaseActivity {
     TextView tvPasswordRegister;
     @BindView(R.id.iv_register_login)
     ImageView ivBackground;
+    @BindView(R.id.tv_get_verification)
+    TextView tvGetVerification;
+    @BindView(R.id.underLine_et_verification)
+    View underLineEtVerification;
+    @BindView(R.id.rl_container_card_register)
+    RelativeLayout rlContainerCardRegister;
 
 
     @Override
@@ -69,9 +84,11 @@ public class RegisterLoginActivity extends BaseActivity {
         ButterKnife.bind(this);
 //        ivBackground.bringToFront();
         //进入页面，默认 登录指示器为选中状态
+        cardLogin.setVisibility(View.VISIBLE);
         tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login));
         onIndicatorAnim(tvIndicatorLogin, true);
         initViewsOnClickEvent();
+        observeEditText();
     }
 
     private void initViewsOnClickEvent() {
@@ -79,6 +96,7 @@ public class RegisterLoginActivity extends BaseActivity {
         onTvIndicatorRegisterClicked();
         onLoginButtonClicked();
         onRegisterButtonClicked();
+        onTvGetVerificationClicked();
     }
 
     /**
@@ -145,6 +163,11 @@ public class RegisterLoginActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 传入 View ，执行放大动画或缩小动画
+     * @param view
+     * @param zoom
+     */
     private void onIndicatorAnim(View view, boolean zoom) {
         if (zoom) {
             ObjectAnimator scaleXAnim = ObjectAnimator.ofFloat(view, "scaleX", 1f, 2f);
@@ -157,8 +180,66 @@ public class RegisterLoginActivity extends BaseActivity {
             scaleXAnim.setDuration(500).start();
             scaleYAnim.setDuration(500).start();
         }
-
     }
 
+    /**
+     *  点击获取验证码事件监听
+     */
+    @OnClick(R.id.tv_get_verification)
+    public void onTvGetVerificationClicked() {
+        tvGetVerification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //开始倒计时 60s
+                tvGetVerification.setTextColor(getResources().getColor(R.color.disable_get_verification_disable));
+                tvGetVerification.setEnabled(false);//倒计时中不可再次点击
+                //从0开始发射61个数字为：0-60依次输出，延时0s执行，每1s发射一次。
+                Disposable mDisposable = Flowable.intervalRange(0, 61, 0, 1, TimeUnit.SECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long aLong) throws Exception {
+                                tvGetVerification.setText((60 - aLong) + " 秒后再试");
+                            }
+                        })
+                        .doOnComplete(new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                //倒计时完毕置为可点击状态
+                                tvGetVerification.setEnabled(true);
+                                tvGetVerification.setText("获取验证码");
+                                tvGetVerification.setTextColor(getResources().getColor(R.color.able_get_verification_disable));
+                            }
+                        })
+                        .subscribe();
 
+            }
+        });
+    }
+
+    /**
+     *  监听 输入框
+     */
+    private void observeEditText(){
+        etVerification.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                //动态获取输入框底线View当前的布局参数
+                RelativeLayout.LayoutParams params =(RelativeLayout.LayoutParams) underLineEtVerification.getLayoutParams();
+                params.width = ConvertUtils.dp2px(250f); // 控件的宽强制设成与布局相同的250f
+                if(hasFocus) {
+                    //获取到焦点：底线变色
+                    underLineEtVerification.setBackgroundColor(getResources().getColor(R.color.editText_underline_chosen));
+                    params.height =ConvertUtils.dp2px(2f);// 控件的高强制设成2
+
+                } else {
+                    //失去焦点：底线变灰色
+                    underLineEtVerification.setBackgroundColor(getResources().getColor(R.color.editText_underline_normal));
+                    params.height =ConvertUtils.dp2px(1f);// 控件的高强制设成1
+                }
+                //动态设置宽高给 底线
+                underLineEtVerification.setLayoutParams(params);
+            }
+        });
+    }
 }
