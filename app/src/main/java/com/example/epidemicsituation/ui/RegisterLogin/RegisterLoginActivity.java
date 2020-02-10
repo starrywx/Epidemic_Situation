@@ -76,19 +76,29 @@ public class RegisterLoginActivity extends BaseActivity {
     @BindView(R.id.rl_container_card_register)
     RelativeLayout rlContainerCardRegister;
 
+    Disposable mDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_login);
         ButterKnife.bind(this);
-//        ivBackground.bringToFront();
         //进入页面，默认 登录指示器为选中状态
         cardLogin.setVisibility(View.VISIBLE);
         tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login));
         onIndicatorAnim(tvIndicatorLogin, true);
+
         initViewsOnClickEvent();
         observeEditText();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 
     private void initViewsOnClickEvent() {
@@ -194,7 +204,7 @@ public class RegisterLoginActivity extends BaseActivity {
                 tvGetVerification.setTextColor(getResources().getColor(R.color.disable_get_verification_disable));
                 tvGetVerification.setEnabled(false);//倒计时中不可再次点击
                 //从0开始发射61个数字为：0-60依次输出，延时0s执行，每1s发射一次。
-                Disposable mDisposable = Flowable.intervalRange(0, 61, 0, 1, TimeUnit.SECONDS)
+                 mDisposable = Flowable.intervalRange(0, 61, 0, 1, TimeUnit.SECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(new Consumer<Long>() {
                             @Override
