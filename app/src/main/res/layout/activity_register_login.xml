@@ -3,6 +3,8 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
+android:backgroundTint="@color/white"
+android:background="@color/white"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
@@ -27,6 +29,9 @@ android:layout_height="match_parent">
     android:layout_alignBottom="@id/tv_indicator_login"
     />
 
+
+
+
     <androidx.cardview.widget.CardView
     android:id = "@+id/card_login"
     android:layout_width = "320dp"
@@ -35,7 +40,7 @@ android:layout_height="match_parent">
     android:layout_marginBottom="80dp"
     android:layout_alignParentBottom="true"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp"
+    app:cardElevation="3dp"
     app:cardBackgroundColor="@color/white"
     android:visibility="visible">
 
@@ -114,7 +119,7 @@ android:layout_height="match_parent">
     android:layout_marginBottom="80dp"
     android:layout_alignParentBottom="true"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp"
+    app:cardElevation="3dp"
     app:cardBackgroundColor="@color/white"
     android:visibility="gone">
 
@@ -214,9 +219,6 @@ android:layout_height="match_parent">
             />
 
 
-
-
-
             <Button
             android:id="@+id/btn_register"
             android:layout_width = "210dp"
@@ -234,7 +236,17 @@ android:layout_height="match_parent">
 
     </androidx.cardview.widget.CardView>
 
-
+    <ImageView
+    android:id = "@+id/iv_register_login"
+    android:layout_width = "150dp"
+    android:layout_height = "150dp"
+    android:elevation="5dp"
+    android:layout_marginEnd="30dp"
+    android:layout_marginBottom="510dp"
+    android:src = "@drawable/icon_login_register"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentBottom="true"
+    />
 
 
 

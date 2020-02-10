@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,14 @@ public class RegisterLoginActivity extends BaseActivity {
     Button btnRegister;
     @BindView(R.id.card_register)
     CardView cardRegister;
+    @BindView(R.id.tv_phone_register)
+    TextView tvPhoneRegister;
+    @BindView(R.id.tv_verification)
+    TextView tvVerification;
+    @BindView(R.id.tv_password_register)
+    TextView tvPasswordRegister;
+    @BindView(R.id.iv_register_login)
+    ImageView ivBackground;
 
 
     @Override
@@ -58,6 +67,7 @@ public class RegisterLoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_login);
         ButterKnife.bind(this);
+//        ivBackground.bringToFront();
         //进入页面，默认 登录指示器为选中状态
         tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login));
         onIndicatorAnim(tvIndicatorLogin, true);
@@ -85,6 +95,7 @@ public class RegisterLoginActivity extends BaseActivity {
                 //注册指示器变灰色，缩小
                 tvIndicatorRegister.setTextColor(getResources().getColor(R.color.indicator_register_normal));
                 onIndicatorAnim(tvIndicatorRegister, false);
+                //显示登录卡片，隐藏注册卡片
                 cardLogin.setVisibility(View.VISIBLE);
                 cardRegister.setVisibility(View.GONE);
             }
@@ -100,15 +111,15 @@ public class RegisterLoginActivity extends BaseActivity {
         tvIndicatorRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //登录指示器变色，放大
+                //注册指示器变色，放大
                 tvIndicatorRegister.setTextColor(getResources().getColor(R.color.indicator_register));
                 onIndicatorAnim(tvIndicatorRegister, true);
-                //注册指示器变灰色，缩小
+                //登录指示器变灰色，缩小
                 tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login_normal));
                 onIndicatorAnim(tvIndicatorLogin, false);
+                //显示注册卡片，隐藏登录卡片
                 cardRegister.setVisibility(View.VISIBLE);
                 cardLogin.setVisibility(View.GONE);
-
             }
         });
     }
@@ -119,16 +130,17 @@ public class RegisterLoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //登录按钮的点击事件
-                ToastUtils.showShort("登录");
+                ToastUtils.showShort("触发登录事件");
             }
         });
     }
+
     @OnClick(R.id.btn_register)
     public void onRegisterButtonClicked() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showShort("注册");
+                ToastUtils.showShort("触发注册事件");
             }
         });
     }
