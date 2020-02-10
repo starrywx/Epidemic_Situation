@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -29,6 +33,7 @@ dependencies {
 
     //依赖注入
     implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     //网络相关
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
@@ -43,6 +48,10 @@ dependencies {
 
     //工具类集合库
     implementation 'com.blankj:utilcodex:1.26.0'
+    //material
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
+    //CardView
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     //Material EditText
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
