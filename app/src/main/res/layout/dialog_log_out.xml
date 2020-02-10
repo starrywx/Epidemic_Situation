@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="210dp"
+    android:layout_height="108dp"
+    android:background="@drawable/alert_bg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:text="是否退出登录"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        android:layout_marginTop="21dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp">
+
+        <TextView
+            android:id="@+id/dialog_log_out_cancel"
+            android:layout_width="36dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="35dp"
+            android:text="取消"
+            android:textColor="#ff888888"
+            android:textSize="18sp"
+            />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:background="#888888"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView
+            android:id="@+id/dialog_log_out_sure"
+            android:layout_width="36dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="34dp"
+            android:text="确定"
+            android:textColor="#ff5ca2fa"
+            android:textSize="18sp"
+            />
+    </RelativeLayout>
+
+
+</RelativeLayout>
