@@ -180,15 +180,15 @@ public class RegisterLoginActivity extends BaseActivity {
      */
     private void onIndicatorAnim(View view, boolean zoom) {
         if (zoom) {
-            ObjectAnimator scaleXAnim = ObjectAnimator.ofFloat(view, "scaleX", 1f, 2f);
-            ObjectAnimator scaleYAnim = ObjectAnimator.ofFloat(view, "scaleY", 1f, 2f);
-            scaleXAnim.setDuration(500).start();
-            scaleYAnim.setDuration(500).start();
+            ObjectAnimator scaleXAnim = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.8f);
+            ObjectAnimator scaleYAnim = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.8f);
+            scaleXAnim.setDuration(300).start();
+            scaleYAnim.setDuration(300).start();
         } else {
-            ObjectAnimator scaleXAnim = ObjectAnimator.ofFloat(view, "scaleX", 2f, 1f);
-            ObjectAnimator scaleYAnim = ObjectAnimator.ofFloat(view, "scaleY", 2f, 1f);
-            scaleXAnim.setDuration(500).start();
-            scaleYAnim.setDuration(500).start();
+            ObjectAnimator scaleXAnim = ObjectAnimator.ofFloat(view, "scaleX", 1.8f, 1f);
+            ObjectAnimator scaleYAnim = ObjectAnimator.ofFloat(view, "scaleY", 1.8f, 1f);
+            scaleXAnim.setDuration(300).start();
+            scaleYAnim.setDuration(300).start();
         }
     }
 

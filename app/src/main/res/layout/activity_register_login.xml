@@ -33,12 +33,14 @@ android:layout_height="match_parent">
         android:id = "@+id/card_login"
         layout="@layout/layout_card_login"
         android:visibility="gone"
+        tools:visibility = "invisible"
         />
 
     <include
         android:id = "@+id/card_register"
         layout="@layout/layout_card_register"
         android:visibility="gone"
+        tools:visibility = "visible"
         />
 
     <ImageView
