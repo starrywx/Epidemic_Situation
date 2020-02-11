@@ -21,4 +21,15 @@
   <!-- 圆角 -->
   <corners android:radius="5dp" />
 
+  <!-- 渐变 -->
+
+    <gradient
+    android:type="linear"
+    android:startColor="#ff8cbcf9"
+    android:endColor="#ff5ca2fa"
+    android:angle="0"
+    android:centerX="0.3"
+    android:centerY="0.3"
+    />
+
 </shape>
