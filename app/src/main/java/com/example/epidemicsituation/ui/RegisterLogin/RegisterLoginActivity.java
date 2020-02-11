@@ -203,13 +203,13 @@ public class RegisterLoginActivity extends BaseActivity {
                 //开始倒计时 60s
                 tvGetVerification.setTextColor(getResources().getColor(R.color.disable_get_verification_disable));
                 tvGetVerification.setEnabled(false);//倒计时中不可再次点击
-                //从0开始发射61个数字为：0-60依次输出，延时0s执行，每1s发射一次。
-                 mDisposable = Flowable.intervalRange(0, 61, 0, 1, TimeUnit.SECONDS)
+                //从0开始发射61个数字为：0-59依次输出，延时0s执行，每1s发射一次。
+                 mDisposable = Flowable.intervalRange(0, 60, 0, 1, TimeUnit.SECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(new Consumer<Long>() {
                             @Override
                             public void accept(Long aLong) throws Exception {
-                                tvGetVerification.setText((60 - aLong) + " 秒后再试");
+                                tvGetVerification.setText((59 - aLong) + " 秒后再试");
                             }
                         })
                         .doOnComplete(new Action() {
@@ -231,21 +231,23 @@ public class RegisterLoginActivity extends BaseActivity {
      *  监听 输入框
      */
     private void observeEditText(){
+        /*
+         * 验证码输入框焦点监听事件
+         */
         etVerification.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 //动态获取输入框底线View当前的布局参数
                 RelativeLayout.LayoutParams params =(RelativeLayout.LayoutParams) underLineEtVerification.getLayoutParams();
-                params.width = ConvertUtils.dp2px(250f); // 控件的宽强制设成与布局相同的250f
+                params.width = ConvertUtils.dp2px(250f); // 底线的宽强制设成与布局相同的250dp
                 if(hasFocus) {
                     //获取到焦点：底线变色
                     underLineEtVerification.setBackgroundColor(getResources().getColor(R.color.editText_underline_chosen));
-                    params.height =ConvertUtils.dp2px(2f);// 控件的高强制设成2
-
+                    params.height =ConvertUtils.dp2px(2f);// 底线的高强制设成2dp
                 } else {
                     //失去焦点：底线变灰色
                     underLineEtVerification.setBackgroundColor(getResources().getColor(R.color.editText_underline_normal));
-                    params.height =ConvertUtils.dp2px(1f);// 控件的高强制设成1
+                    params.height =ConvertUtils.dp2px(1f);// 底线的高强制设成 1dp
                 }
                 //动态设置宽高给 底线
                 underLineEtVerification.setLayoutParams(params);
