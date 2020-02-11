@@ -9,24 +9,24 @@ android:layout_width="match_parent"
 android:layout_height="match_parent">
 
     <TextView
-    android:id = "@+id/tv_indicator_login"
-    android:layout_width = "wrap_content"
-    android:layout_height = "wrap_content"
-    android:text = "登录"
-    android:textSize="18sp"
-    android:layout_marginTop="96dp"
-    android:layout_marginStart="60dp"
-    />
+       android:id = "@+id/tv_indicator_login"
+       android:layout_width = "wrap_content"
+       android:layout_height = "wrap_content"
+       android:text = "登录"
+       android:textSize="18sp"
+       android:layout_marginTop="96dp"
+       android:layout_marginStart="60dp"
+       />
 
     <TextView
-    android:id = "@+id/tv_indicator_register"
-    android:layout_width = "wrap_content"
-    android:layout_height = "wrap_content"
-    android:text = "注册"
-    android:textSize="18sp"
-    android:layout_toEndOf="@id/tv_indicator_login"
-    android:layout_marginStart="60dp"
-    android:layout_alignBottom="@id/tv_indicator_login"
+       android:id = "@+id/tv_indicator_register"
+       android:layout_width = "wrap_content"
+       android:layout_height = "wrap_content"
+       android:text = "注册"
+       android:textSize="18sp"
+       android:layout_toEndOf="@id/tv_indicator_login"
+       android:layout_marginStart="60dp"
+       android:layout_alignBottom="@id/tv_indicator_login"
     />
 
     <include
@@ -44,16 +44,16 @@ android:layout_height="match_parent">
         />
 
     <ImageView
-    android:id = "@+id/iv_register_login"
-    android:layout_width = "150dp"
-    android:layout_height = "150dp"
-    android:elevation="5dp"
-    android:layout_marginEnd="30dp"
-    android:layout_marginBottom="510dp"
-    android:src = "@drawable/icon_login_register"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentBottom="true"
-    />
+        android:id = "@+id/iv_register_login"
+        android:layout_width = "150dp"
+        android:layout_height = "150dp"
+        android:elevation="5dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="510dp"
+        android:src = "@drawable/icon_login_register"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        />
 
 
 

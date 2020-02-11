@@ -152,17 +152,22 @@ public class RegisterLoginActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 登录按钮的点击事件
+     */
     @OnClick(R.id.btn_login)
     public void onLoginButtonClicked() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //登录按钮的点击事件
                 ToastUtils.showShort("触发登录事件");
             }
         });
     }
 
+    /**
+     * 注册按钮的点击事件
+     */
     @OnClick(R.id.btn_register)
     public void onRegisterButtonClicked() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +214,8 @@ public class RegisterLoginActivity extends BaseActivity {
                         .doOnNext(new Consumer<Long>() {
                             @Override
                             public void accept(Long aLong) throws Exception {
-                                tvGetVerification.setText((59 - aLong) + " 秒后再试");
+                                String content = (59 - aLong) + " 秒后再试";
+                                tvGetVerification.setText(content);
                             }
                         })
                         .doOnComplete(new Action() {
@@ -228,7 +234,7 @@ public class RegisterLoginActivity extends BaseActivity {
     }
 
     /**
-     *  监听 输入框
+     *  监听 输入框事件
      */
     private void observeEditText(){
         /*
