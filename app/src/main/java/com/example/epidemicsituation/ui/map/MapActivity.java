@@ -1,22 +1,33 @@
 package com.example.epidemicsituation.ui.map;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MapActivity extends BaseActivity {
 
     @BindView(R.id.activity_map_mv)
     MapView mapMv;
+    @BindView(R.id.iv_heat_map)
+    ImageView heatMapIv;
+    @BindView(R.id.iv_personal_trajectory)
+    ImageView personalTrajectoryIv;
+
+
+    private AMap mAmap;
+    private UiSettings mUiSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +35,13 @@ public class MapActivity extends BaseActivity {
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
         mapMv.onCreate(savedInstanceState);
-        AMap aMap;
-            aMap = mapMv.getMap();
+        mAmap = mapMv.getMap();
+        mUiSettings = mAmap.getUiSettings();
+        initMap();
+    }
+
+    public void initMap() {
+        mUiSettings.setZoomControlsEnabled(false);
     }
 
     @Override
@@ -50,5 +66,15 @@ public class MapActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         mapMv.onResume();
+    }
+
+    @OnClick({R.id.iv_heat_map, R.id.iv_personal_trajectory})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_heat_map:
+                break;
+            case R.id.iv_personal_trajectory:
+                break;
+        }
     }
 }
