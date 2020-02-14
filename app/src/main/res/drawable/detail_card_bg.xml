@@ -2,15 +2,13 @@
 <shape
     android:shape="rectangle"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <size
         android:width="360dp"
-        android:height="195dp"/>
+        android:height="204dp"/>
 
-    <solid android:color="#8CBCF9"/>
+    <solid android:color="#FFFFFF"/>
 
     <corners
-        android:bottomLeftRadius="180dp"
-        android:bottomRightRadius="180dp"/>
-
-    </shape>
+        android:topLeftRadius="16dp"
+        android:topRightRadius="16dp"/>
+</shape>
