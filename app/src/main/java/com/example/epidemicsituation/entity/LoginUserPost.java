@@ -11,6 +11,7 @@ public class LoginUserPost {
      * user : {"id":"asd","password":"asd"}
      */
 
+
     private UserBean user;
 
     public UserBean getUser() {

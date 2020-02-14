@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="320dp"
+    android:layout_height="240dp"
+    android:background="@drawable/alert_bg">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+
+        <TextView
+        android:id = "@+id/tv_title_dialog_request_permission"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text = "@string/dialog_request_permission_title"
+        android:textSize = "15sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="15dp"
+        />
+
+        <TextView
+        android:id = "@+id/tv_content_dialog_request_permission"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_below="@id/tv_title_dialog_request_permission"
+        android:layout_centerHorizontal="true"
+        android:text = "@string/dialog_request_permission_content"
+        android:textSize = "15sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="29dp"
+        />
+
+        <Button
+        android:id="@+id/btn_agree_dialog_request_permission"
+        android:layout_width = "107dp"
+        android:layout_height = "40dp"
+        android:text = "同意"
+        android:textColor="@color/white"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/shape_button_register_login"
+        />
+
+        <Button
+        android:id="@+id/btn_disagree_dialog_request_permission"
+        android:layout_width = "107dp"
+        android:layout_height = "40dp"
+        android:text = "不同意"
+        android:textColor="@color/black"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white"
+        />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

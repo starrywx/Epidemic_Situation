@@ -5,6 +5,7 @@ package com.example.epidemicsituation.ui.RegisterLogin;
  * @author: ODM
  * @date: 2020/2/14
  */
+
 public class RegisterLoginContract {
 
      interface View{

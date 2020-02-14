@@ -1,6 +1,7 @@
 package com.example.epidemicsituation.ui.RegisterLogin;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
+import com.example.epidemicsituation.ui.map.MapActivity;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.concurrent.TimeUnit;
@@ -160,7 +162,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showShort("触发登录事件");
+                loginSuccess();
             }
         });
     }
@@ -263,7 +265,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     @Override
     public void loginSuccess() {
-
+        startActivity(new Intent(this, MapActivity.class));
     }
 
     @Override
