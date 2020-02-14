@@ -28,7 +28,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
-public class RegisterLoginActivity extends BaseActivity {
+public class RegisterLoginActivity extends BaseActivity implements RegisterLoginContract.View {
 
 
     @BindView(R.id.tv_indicator_login)
@@ -258,5 +258,26 @@ public class RegisterLoginActivity extends BaseActivity {
                 underLineEtVerification.setLayoutParams(params);
             }
         });
+    }
+
+
+    @Override
+    public void loginSuccess() {
+
+    }
+
+    @Override
+    public void loginFailed() {
+
+    }
+
+    @Override
+    public void registerSuccess() {
+
+    }
+
+    @Override
+    public void registerFailed() {
+
     }
 }
