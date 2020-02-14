@@ -228,7 +228,6 @@ public class RegisterLoginActivity extends BaseActivity {
                             }
                         })
                         .subscribe();
-
             }
         });
     }
