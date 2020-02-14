@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/activity_map_mv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/iv_heat_map"
+        android:layout_width="63dp"
+        android:layout_height="63dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="5dp"
+        android:src="@mipmap/ic_heat_map_button"
+        android:scaleType="fitXY"
+        />
+
+    <ImageView
+        android:id="@+id/iv_personal_trajectory"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_above="@id/iv_heat_map"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/ic_personal_trajectory"
+        android:scaleType="fitXY"
+        />
+
+</RelativeLayout>
