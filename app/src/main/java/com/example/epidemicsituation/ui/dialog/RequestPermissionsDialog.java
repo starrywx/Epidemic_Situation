@@ -46,7 +46,7 @@ public class RequestPermissionsDialog extends Dialog {
 
                 break;
             default:
-                    break;
+                break;
         }
     }
 }

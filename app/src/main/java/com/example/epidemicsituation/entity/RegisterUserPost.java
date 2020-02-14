@@ -26,9 +26,14 @@ public class RegisterUserPost {
          * id : asd
          * password : asd
          */
-
         private String id;
         private String password;
+
+
+        public UserBean(String id , String password){
+            this.id = id;
+            this.password = password;
+        }
 
         public String getId() {
             return id;

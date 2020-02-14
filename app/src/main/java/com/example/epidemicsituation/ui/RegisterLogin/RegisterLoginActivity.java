@@ -13,9 +13,12 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
+import com.example.epidemicsituation.entity.LoginUserPost;
 import com.example.epidemicsituation.ui.map.MapActivity;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -29,6 +32,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class RegisterLoginActivity extends BaseActivity implements RegisterLoginContract.View {
 
@@ -92,6 +97,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
         initViewsOnClickEvent();
         observeEditText();
+
     }
 
 
