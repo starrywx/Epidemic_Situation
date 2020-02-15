@@ -34,7 +34,14 @@
         >
         <meta-data android:name="com.amap.api.v2.apikey" android:value="acf0be03d5e267b67734e191ef8663b1"/>
         <service android:name="com.amap.api.location.APSService"></service>
-        <activity android:name=".ui.map.MapActivity"></activity>
+        <activity android:name=".ui.map.MapActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.history.HistoryActivity" />
         <activity
             android:name=".ui.LaunchActivity"
@@ -47,12 +54,6 @@
         <activity
             android:name=".ui.RegisterLogin.RegisterLoginActivity"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

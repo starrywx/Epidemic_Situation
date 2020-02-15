@@ -2,7 +2,10 @@ package com.example.epidemicsituation.ui.map;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -15,19 +18,25 @@ import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.Gradient;
+import com.amap.api.maps.model.HeatmapTileProvider;
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.TileOverlayOptions;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.ui.dialog.RequestPermissionsDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
-public class MapActivity extends BaseActivity {
+public class MapActivity extends BaseActivity implements AMap.OnMyLocationChangeListener{
 
     @BindView(R.id.activity_map_mv)
     MapView mapMv;
@@ -44,6 +53,13 @@ public class MapActivity extends BaseActivity {
     private boolean isHeatMapOpen;
     private boolean isPersonalTrajectory;
     private MyLocationStyle myLocationStyle;
+    //设置渐变颜色
+    private int[] gradientColor = new int[] {Color.rgb(0, 225, 0),
+            Color.rgb(255, 0, 0)};
+    private float[] gradientNum = new float[] {0.0f, 1.0f};
+    private Gradient heatMapGradient = new Gradient(gradientColor, gradientNum);
+
+    private static final String TAG = "MapActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +74,7 @@ public class MapActivity extends BaseActivity {
         openLocation();
         //设置缩放
         zoomTo(17);
-
+        mAmap.clear();
     }
 
     @Override
@@ -75,14 +91,24 @@ public class MapActivity extends BaseActivity {
         mAmap.moveCamera(mCameraUpdate);
     }
 
+    /**
+     * 打开定位
+     */
     private void openLocation() {
+        mAmap.setOnMyLocationChangeListener(this);
         myLocationStyle = new MyLocationStyle();
         myLocationStyle.interval(2000);
+        //隐藏精确圈
+        myLocationStyle.strokeWidth(0);
+        myLocationStyle.radiusFillColor(android.R.color.transparent);
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
         mAmap.setMyLocationStyle(myLocationStyle);
         mAmap.setMyLocationEnabled(true);
     }
 
+    /**
+     * 初始化地图
+     */
     public void initMap() {
         mUiSettings.setZoomControlsEnabled(false);
     }
@@ -133,24 +159,62 @@ public class MapActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 关闭个人轨迹
+     */
     private void closePersonalTrajectory() {
         isPersonalTrajectory = false;
     }
 
+    /**
+     * 打开个人轨迹
+     */
     private void openPersonalTrajectory() {
 
     }
 
+    /**
+     * 打开热力图
+     */
     private void openHeatMap() {
         isHeatMapOpen = true;
         heatMapIv.setImageResource(R.mipmap.ic_heat_map_open);
+        //showHeatMap(latlngs);
+    }
+
+    /**
+     * 获取经纬度信息
+     * @param location 精度信息
+     */
+    @Override
+    public void onMyLocationChange(Location location) {
 
     }
 
+    /**
+     * 展示热力图,(已测试)
+     * @param latlngs 经纬度数组
+     */
+    private void showHeatMap(LatLng[] latlngs) {
+        // 构建热力图 HeatmapTileProvider
+        HeatmapTileProvider.Builder builder = new HeatmapTileProvider.Builder();
+        builder.data(Arrays.asList(latlngs))// 设置热力图绘制的数据
+                .gradient(heatMapGradient); // 设置热力图渐变，有默认值 DEFAULT_GRADIENT，可不设置该接口
+        HeatmapTileProvider heatmapTileProvider = builder.build();
+        // 初始化 TileOverlayOptions
+        TileOverlayOptions tileOverlayOptions = new TileOverlayOptions();
+        tileOverlayOptions.tileProvider(heatmapTileProvider); // 设置瓦片图层的提供者
+        // 向地图上添加 TileOverlayOptions 类对象
+        mAmap.addTileOverlay(tileOverlayOptions);
+    }
+
+    /**
+     * 关闭热力图
+     */
     private void closeHeatMap() {
         isHeatMapOpen = false;
         heatMapIv.setImageResource(R.mipmap.ic_heat_map_button);
-
+        mAmap.clear();
     }
 
     private void checkLocatePermission(){
