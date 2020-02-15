@@ -1,6 +1,7 @@
 package com.example.epidemicsituation.ui.RegisterLogin;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,9 +13,13 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
+import com.example.epidemicsituation.entity.LoginUserPost;
+import com.example.epidemicsituation.ui.map.MapActivity;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.concurrent.TimeUnit;
@@ -27,8 +32,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
-public class RegisterLoginActivity extends BaseActivity {
+public class RegisterLoginActivity extends BaseActivity implements RegisterLoginContract.View {
 
 
     @BindView(R.id.tv_indicator_login)
@@ -90,6 +97,7 @@ public class RegisterLoginActivity extends BaseActivity {
 
         initViewsOnClickEvent();
         observeEditText();
+
     }
 
 
@@ -160,7 +168,7 @@ public class RegisterLoginActivity extends BaseActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showShort("触发登录事件");
+                loginSuccess();
             }
         });
     }
@@ -228,7 +236,6 @@ public class RegisterLoginActivity extends BaseActivity {
                             }
                         })
                         .subscribe();
-
             }
         });
     }
@@ -259,5 +266,26 @@ public class RegisterLoginActivity extends BaseActivity {
                 underLineEtVerification.setLayoutParams(params);
             }
         });
+    }
+
+
+    @Override
+    public void loginSuccess() {
+        startActivity(new Intent(this, MapActivity.class));
+    }
+
+    @Override
+    public void loginFailed() {
+
+    }
+
+    @Override
+    public void registerSuccess() {
+
+    }
+
+    @Override
+    public void registerFailed() {
+
     }
 }

@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+//    signingConfigs {
+//        debug_wx {
+//            storeFile file('/Users/wangyuyong/Desktop/debug_wx.keystore')
+//            storePassword 'android'
+//            keyAlias = 'androiddebugkey'
+//            keyPassword 'android'
+//        }
+//    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -11,15 +19,23 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+//    buildTypes {
+//        release {
+//            signingConfig signingConfigs.debug_wx
+//        }
+//        debug {
+//            signingConfig signingConfigs.debug_wx
+//        }
+//    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -59,6 +75,7 @@ dependencies {
 
     //Material EditText
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
-
+    //申请权限
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5'
 
 }
