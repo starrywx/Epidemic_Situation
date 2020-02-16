@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        debug_wx {
-            storeFile file('/Users/wangyuyong/Desktop/debug_wx.keystore')
-            storePassword 'android'
-            keyAlias = 'androiddebugkey'
-            keyPassword 'android'
-        }
-    }
+//    signingConfigs {
+//        debug_wx {
+//            storeFile file('/Users/wangyuyong/Desktop/debug_wx.keystore')
+//            storePassword 'android'
+//            keyAlias = 'androiddebugkey'
+//            keyPassword 'android'
+//        }
+//    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -23,14 +23,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug_wx
-        }
-        debug {
-            signingConfig signingConfigs.debug_wx
-        }
-    }
+//    buildTypes {
+//        release {
+//            signingConfig signingConfigs.debug_wx
+//        }
+//        debug {
+//            signingConfig signingConfigs.debug_wx
+//        }
+//    }
     buildTypes {
         release {
             minifyEnabled false
@@ -70,6 +70,8 @@ dependencies {
     //material
     implementation 'com.google.android.material:material:1.2.0-alpha04'
 
+    //圆型视图
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 
     //Material EditText
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'

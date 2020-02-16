@@ -5,13 +5,10 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdate;
@@ -35,9 +32,10 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.functions.Consumer;
 
-public class MapActivity extends BaseActivity implements AMap.OnMyLocationChangeListener{
+public class MapActivity extends BaseActivity implements AMap.OnMyLocationChangeListener {
 
     @BindView(R.id.activity_map_mv)
     MapView mapMv;
@@ -47,6 +45,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     ImageView personalTrajectoryIv;
 
     RxPermissions rxPermissions;
+    @BindView(R.id.civ_back_to_history)
+    CircleImageView civBackToHistory;
 
 
     private AMap mAmap;
@@ -55,9 +55,9 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     private boolean isPersonalTrajectory;
     private MyLocationStyle myLocationStyle;
     //设置渐变颜色
-    private int[] gradientColor = new int[] {Color.rgb(0, 225, 0),
+    private int[] gradientColor = new int[]{Color.rgb(0, 225, 0),
             Color.rgb(255, 0, 0)};
-    private float[] gradientNum = new float[] {0.0f, 1.0f};
+    private float[] gradientNum = new float[]{0.0f, 1.0f};
     private Gradient heatMapGradient = new Gradient(gradientColor, gradientNum);
 
     private static final String TAG = "MapActivity";
@@ -81,7 +81,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     @Override
     protected void onStart() {
         super.onStart();
-        rxPermissions =  new RxPermissions(this);
+        rxPermissions = new RxPermissions(this);
         //首次登录时，弹出权限申请对话框，向用户说明情况
         checkLocatePermission();
     }
@@ -138,22 +138,26 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         mapMv.onResume();
     }
 
-    @OnClick({R.id.iv_heat_map, R.id.iv_personal_trajectory})
+    @OnClick({R.id.iv_heat_map, R.id.iv_personal_trajectory, R.id.civ_back_to_history})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_heat_map:
                 if (isHeatMapOpen) {
                     closeHeatMap();
-                }else {
+                } else {
                     openHeatMap();
                 }
                 break;
             case R.id.iv_personal_trajectory:
                 if (isPersonalTrajectory) {
                     closePersonalTrajectory();
-                }else {
+                } else {
                     openPersonalTrajectory();
                 }
+                break;
+            case R.id.civ_back_to_history:
+                //返回历史界面
+
                 break;
             default:
                 break;
@@ -186,6 +190,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
 
     /**
      * 获取经纬度信息
+     *
      * @param location 精度信息
      */
     @Override
@@ -195,6 +200,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
 
     /**
      * 展示热力图,(已测试)
+     *
      * @param latlngs 经纬度数组
      */
     private void showHeatMap(LatLng[] latlngs) {
@@ -219,14 +225,14 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         mAmap.clear();
     }
 
-    private void checkLocatePermission(){
-        if( ! rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION)){
+    private void checkLocatePermission() {
+        if (!rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             popUpRequestPermissionsDialog();
         }
     }
 
 
-    private void popUpRequestPermissionsDialog(){
+    private void popUpRequestPermissionsDialog() {
 /*        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final AlertDialog dialog = builder
                 .setView(R.layout.dialog_request_permission)
@@ -284,4 +290,5 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
                 });
 
     }
+
 }

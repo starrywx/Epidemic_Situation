@@ -34,4 +34,90 @@
         android:scaleType="fitXY"
         />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:visibility="gone"
+        android:id="@+id/civ_back_to_history"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="18dp"
+        android:src="@drawable/ic_back"/>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/detail_card_bg">
+        <view
+            android:layout_width="14dp"
+            android:layout_height="1dp"
+            android:color="#ff999999"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"/>
+        <view
+            android:layout_width="14dp"
+            android:layout_height="1dp"
+            android:color="#ff999999"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"/>
+        <view
+            android:layout_width="14dp"
+            android:layout_height="1dp"
+            android:color="#ff999999"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="116dp"
+            android:layout_height="26dp"
+            android:background="@drawable/blue_bg"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="感染风险源地点"
+            android:textColor="#ffffffff"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="70dp"
+            android:text="广州大学城体育中心"
+            android:textColor="#ff4d4d4d"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="26dp"
+            android:background="@drawable/blue_bg"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:text="感染风险"
+            android:textColor="#ffffffff"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="126dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="66%"
+            android:textColor="#ffe44b04"
+            android:textSize="44sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="195dp"
+            android:gravity="center"
+            android:text="2020/02/02/04:08"
+            android:textColor="#ff999999"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
 </RelativeLayout>
