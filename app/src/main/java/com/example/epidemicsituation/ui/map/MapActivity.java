@@ -27,6 +27,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.ui.dialog.RequestPermissionsDialog;
+import com.example.epidemicsituation.ui.dialog.TimerPickDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.Arrays;
@@ -170,7 +171,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
      * 打开个人轨迹
      */
     private void openPersonalTrajectory() {
-
+        TimerPickDialog timerPickDialog = new TimerPickDialog(this);
+        timerPickDialog.show();
     }
 
     /**

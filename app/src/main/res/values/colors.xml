@@ -16,6 +16,9 @@
     <color name = "disable_get_verification_disable">#999999</color>
     <color name = "able_get_verification_disable">#5CA2FA</color>
 
+    <color name="line_not_selected">#E6E6E6</color>
+    <color name="line_selected">#5CA2FA</color>
+
 
 
 
