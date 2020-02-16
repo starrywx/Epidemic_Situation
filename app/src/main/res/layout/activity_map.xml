@@ -50,19 +50,19 @@
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:background="@drawable/detail_card_bg">
-        <view
+        <View
             android:layout_width="14dp"
             android:layout_height="1dp"
             android:color="#ff999999"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"/>
-        <view
+        <View
             android:layout_width="14dp"
             android:layout_height="1dp"
             android:color="#ff999999"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="12dp"/>
-        <view
+        <View
             android:layout_width="14dp"
             android:layout_height="1dp"
             android:color="#ff999999"
