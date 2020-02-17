@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="256dp"
+    android:layout_height="280dp"
+    android:background="@drawable/shape_timer_picker">
+
+    <TextView
+        android:layout_width="208dp"
+        android:layout_height="22dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="请选择个人历史轨迹显示区间"
+        android:textColor="#ff5ca2fa"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_time_pick_start"
+        android:layout_width="188dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="10dp"
+        android:text="2020 年 2 月 11 日 10 时"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textColor="#ff000000"
+        android:textSize="16sp"
+        />
+
+    <View
+        android:id="@+id/v_time_pick_start"
+        android:layout_width="200dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/line_selected"/>
+
+    <TextView
+        android:layout_width="16dp"
+        android:layout_height="22dp"
+        android:text="至"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ff000000"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_time_pick_end"
+        android:layout_width="188dp"
+        android:layout_height="22dp"
+        android:text="2020 年 2 月 12 日 10 时"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:textColor="#ff000000"
+        android:textSize="16sp"
+        />
+
+    <View
+        android:id="@+id/v_time_pick_end"
+        android:layout_width="200dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/line_not_selected"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_marginTop="20dp"
+        >
+        
+        <com.example.epidemicsituation.ui.dialog.CustomNP
+            android:id="@+id/np_year"
+            android:layout_width="38dp"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginLeft="40dp"/>
+
+        <TextView
+            android:layout_width="12dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:text="年"
+            android:textColor="#ff000000"
+            android:textSize="12sp"
+            />
+
+        <com.example.epidemicsituation.ui.dialog.CustomNP
+            android:id="@+id/np_month"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+
+        <TextView
+            android:layout_width="12dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center_vertical"
+            android:text="月"
+            android:textColor="#ff000000"
+            android:textSize="12sp"
+            />
+
+        <com.example.epidemicsituation.ui.dialog.CustomNP
+            android:id="@+id/np_day"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+
+        <TextView
+            android:layout_width="12dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center_vertical"
+            android:text="日"
+            android:textColor="#ff000000"
+            android:textSize="12sp"
+            />
+
+        <com.example.epidemicsituation.ui.dialog.CustomNP
+            android:id="@+id/np_hour"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+
+        <TextView
+            android:layout_width="12dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center_vertical"
+            android:text="时"
+            android:textColor="#ff000000"
+            android:textSize="12sp"
+            />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="取消"
+            android:textColor="#ff888888"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"/>
+        
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:background="#707070"/>
+
+        <TextView
+            android:id="@+id/tv_config"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="确认"
+            android:textColor="#ff888888"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"/>
+
+    </LinearLayout>
+</LinearLayout>
