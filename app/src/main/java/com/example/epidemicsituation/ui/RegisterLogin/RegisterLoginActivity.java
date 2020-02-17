@@ -2,6 +2,7 @@ package com.example.epidemicsituation.ui.RegisterLogin;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 
 import com.blankj.utilcode.util.ConvertUtils;
@@ -85,11 +87,14 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     Disposable mDisposable;
 
+    private RegisterLoginPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_login);
         ButterKnife.bind(this);
+        mPresenter = new RegisterLoginPresenter();
         //进入页面，默认 登录指示器为选中状态
         cardLogin.setVisibility(View.VISIBLE);
         tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login));
@@ -97,13 +102,20 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
         initViewsOnClickEvent();
         observeEditText();
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.attachView(this);
+
+
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mPresenter.detachView();
         if(mDisposable != null) {
             mDisposable.dispose();
         }
@@ -179,9 +191,11 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
     @OnClick(R.id.btn_register)
     public void onRegisterButtonClicked() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 ToastUtils.showShort("触发注册事件");
+                mPresenter.doKeepAliveBackground();
             }
         });
     }

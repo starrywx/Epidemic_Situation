@@ -6,7 +6,7 @@ package com.example.epidemicsituation.ui.RegisterLogin;
  * @date: 2020/2/14
  */
 
-public class RegisterLoginContract {
+public class RegisterLoginContract  {
 
      interface View{
          /**
@@ -31,7 +31,7 @@ public class RegisterLoginContract {
     }
 
 
-     interface Presenter{
+     interface Presenter {
 
          /**
           * 登录
