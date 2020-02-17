@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -195,7 +196,15 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
             @Override
             public void onClick(View v) {
                 ToastUtils.showShort("触发注册事件");
-                mPresenter.doKeepAliveBackground();
+//                mPresenter.doKeepAliveBackground();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        int[] a = new int[]{0,1,2};
+                        int b = a[4];
+                    }
+                }, 8000);// 8秒钟后执行
             }
         });
     }

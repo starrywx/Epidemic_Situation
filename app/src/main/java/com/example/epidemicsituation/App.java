@@ -2,6 +2,10 @@ package com.example.epidemicsituation;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+
+import com.blankj.utilcode.util.ToastUtils;
+import com.example.epidemicsituation.Utils.CrashCatchUtil;
 
 /**
  * @description: Application 实现类
@@ -23,9 +27,26 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        initCrashCatchHandler();
     }
 
     public static Context getContext() {
         return context;
+    }
+
+    private void initCrashCatchHandler(){
+        CrashCatchUtil.getInstance().setCrashHandler(new CrashCatchUtil.CrashHandler() {
+            @Override
+            public void handlerException(Thread t, Throwable e) {
+                 //发生了未catch的异常，执行重启
+                Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+                if (LaunchIntent != null) {
+                    LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(LaunchIntent);
+                }
+
+            }
+        });
+
     }
 }

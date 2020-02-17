@@ -110,6 +110,7 @@ public class RegisterLoginPresenter   implements BasePresent<RegisterLoginActivi
         if(KeepAliveBackgroundUtil.getInstance().isXiaomi()) {
             //前往小米应用设置保活
             KeepAliveBackgroundUtil.getInstance().goXiaomiSetting();
+            ToastUtils.showLong("请将应用加入手机自启动名单");
         }else if(KeepAliveBackgroundUtil.getInstance().isHuawei()) {
             //前往华为应用设置保活
             KeepAliveBackgroundUtil.getInstance().goHuaweiSetting();
