@@ -2,10 +2,9 @@ package com.example.epidemicsituation.bean;
 
 import java.util.List;
 
-public class HistoryInfo {
+public class AlertInfo {
     private String msg;
-    private int code;
-    private List<DataBean> data;
+    private DataBean data;
 
     public String getMsg() {
         return msg;
@@ -15,19 +14,11 @@ public class HistoryInfo {
         this.msg = msg;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public List<DataBean> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
