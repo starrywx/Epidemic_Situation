@@ -2,6 +2,7 @@ package com.example.epidemicsituation.ui.map;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -15,19 +16,27 @@ import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.Gradient;
 import com.amap.api.maps.model.HeatmapTileProvider;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.PolygonOptions;
+import com.amap.api.maps.model.Polyline;
+import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.model.TileOverlayOptions;
+import com.amap.api.maps.model.WeightedLatLng;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
+import com.example.epidemicsituation.ui.dialog.ClickConfig;
 import com.example.epidemicsituation.ui.dialog.RequestPermissionsDialog;
 import com.example.epidemicsituation.ui.dialog.TimerPickDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +44,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.functions.Consumer;
 
-public class MapActivity extends BaseActivity implements AMap.OnMyLocationChangeListener {
+public class MapActivity extends BaseActivity implements AMap.OnMyLocationChangeListener, MapContract.MapView {
 
     @BindView(R.id.activity_map_mv)
     MapView mapMv;
@@ -48,11 +57,14 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     @BindView(R.id.civ_back_to_history)
     CircleImageView civBackToHistory;
 
+    private MapPresent present;
 
+    private TimerPickDialog timerPickDialog;
     private AMap mAmap;
     private UiSettings mUiSettings;
     private boolean isHeatMapOpen;
     private boolean isPersonalTrajectory;
+    private boolean isPoisArea;
     private MyLocationStyle myLocationStyle;
     //设置渐变颜色
     private int[] gradientColor = new int[]{Color.rgb(0, 225, 0),
@@ -61,6 +73,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     private Gradient heatMapGradient = new Gradient(gradientColor, gradientNum);
 
     private static final String TAG = "MapActivity";
+
+    private boolean isFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +87,10 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         initMap();
         //打开定位
         openLocation();
-        //设置缩放
-        zoomTo(17);
         mAmap.clear();
+
+        present = new MapPresent();
+        present.bindView(this);
     }
 
     @Override
@@ -87,8 +102,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     }
 
     //缩放等级3~19
-    private void zoomTo(int zoom) {
-        CameraUpdate mCameraUpdate = CameraUpdateFactory.zoomTo(zoom);
+    private void moveAndZoomTo(LatLng latLng,int zoom) {
+        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng,zoom,30,0));
         mAmap.moveCamera(mCameraUpdate);
     }
 
@@ -102,7 +117,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         //隐藏精确圈
         myLocationStyle.strokeWidth(0);
         myLocationStyle.radiusFillColor(android.R.color.transparent);
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER);
         mAmap.setMyLocationStyle(myLocationStyle);
         mAmap.setMyLocationEnabled(true);
     }
@@ -118,6 +133,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     protected void onDestroy() {
         super.onDestroy();
         mapMv.onDestroy();
+        present.unBind();
     }
 
     @Override
@@ -142,13 +158,23 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_heat_map:
-                if (isHeatMapOpen) {
+                if (isPersonalTrajectory) {
+                    ToastUtils.showShort("请先关闭个人轨迹功能");
+                    return;
+                }
+                poisArea();
+               /* if (isHeatMapOpen) {
                     closeHeatMap();
                 } else {
                     openHeatMap();
-                }
+                }*/
                 break;
             case R.id.iv_personal_trajectory:
+                ToastUtils.showShort("暂未开放！");
+                if (isHeatMapOpen) {
+                    ToastUtils.showShort("请先关闭热力图功能");
+                    return;
+                }
                 if (isPersonalTrajectory) {
                     closePersonalTrajectory();
                 } else {
@@ -175,8 +201,14 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
      * 打开个人轨迹
      */
     private void openPersonalTrajectory() {
-        TimerPickDialog timerPickDialog = new TimerPickDialog(this);
+        timerPickDialog = new TimerPickDialog(this);
         timerPickDialog.show();
+        timerPickDialog.setConfigLinten(new ClickConfig() {
+            @Override
+            public void onClick(Dialog d) {
+
+            }
+        });
     }
 
     /**
@@ -195,7 +227,10 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
      */
     @Override
     public void onMyLocationChange(Location location) {
-
+        if (isFirst) {
+            isFirst = false;
+            moveAndZoomTo(new LatLng(location.getLatitude(),location.getLongitude()), 12);
+        }
     }
 
     /**
@@ -203,10 +238,10 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
      *
      * @param latlngs 经纬度数组
      */
-    private void showHeatMap(LatLng[] latlngs) {
+    public void showHeatMap(List<WeightedLatLng> latlngs) {
         // 构建热力图 HeatmapTileProvider
         HeatmapTileProvider.Builder builder = new HeatmapTileProvider.Builder();
-        builder.data(Arrays.asList(latlngs))// 设置热力图绘制的数据
+        builder.weightedData(latlngs)// 设置热力图绘制的数据
                 .gradient(heatMapGradient); // 设置热力图渐变，有默认值 DEFAULT_GRADIENT，可不设置该接口
         HeatmapTileProvider heatmapTileProvider = builder.build();
         // 初始化 TileOverlayOptions
@@ -291,4 +326,49 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
 
     }
 
+    @Override
+    public void drawTrajectory(List<LatLng> latLngs) {
+        Polyline polyline = mAmap.addPolyline(new PolylineOptions()
+                .addAll(latLngs).width(10).color(Color.parseColor("#F80C0C")));
+    }
+
+    @Override
+    public void clearMap() {
+        if (mAmap != null) {
+            mAmap.clear();
+        }
+    }
+
+    @Override
+    public void drawPoint(LatLng latLng, String palce) {
+        mAmap.addMarker(new MarkerOptions().position(latLng).title(palce).snippet(palce));
+    }
+
+    @Override
+    public void drawPolygon(List<LatLng> latLngs, String place) {
+        if (latLngs != null) {
+            if (latLngs.size() > 0) {
+                drawPoint(latLngs.get(0), place);
+                PolygonOptions polylineOptions = new PolygonOptions();
+                polylineOptions.addAll(latLngs);
+                polylineOptions.strokeWidth(3.0f)
+                        .fillColor(Color.parseColor("#4169E1"))
+                        .strokeColor(Color.parseColor("#000080"));
+                mAmap.addPolygon(polylineOptions);
+            }
+        }
+    }
+
+    private void poisArea() {
+        if (isPoisArea) {
+            isPoisArea = false;
+            heatMapIv.setImageResource(R.mipmap.ic_heat_map_button);
+            present.hidePoisArea();
+        }else {
+            //打开疫情区域标注
+            isPoisArea = true;
+            heatMapIv.setImageResource(R.mipmap.ic_heat_map_open);
+            present.showPoisArea();
+        }
+    }
 }

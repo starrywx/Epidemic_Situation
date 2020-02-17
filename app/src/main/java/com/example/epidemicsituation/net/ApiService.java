@@ -1,16 +1,23 @@
 package com.example.epidemicsituation.net;
 
 import com.example.epidemicsituation.entity.LoginUserPost;
+import com.example.epidemicsituation.entity.PoisArea;
 import com.example.epidemicsituation.entity.RegisterUserPost;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiService {
-    static String BASE_URL = "";
+    String BASE_URL = "";
+
+    String POIS_AREA_URL = "https://oss.mapmiao.com";
 
     /**
      * 用户登录接口
@@ -31,4 +38,6 @@ public interface ApiService {
     Observable<RegisterUserPost> registerUserPost(@Body RequestBody registerUserBody);
 
 
+    @GET("https://oss.mapmiao.com/others/ncov/data.json?timestamp=999999999999999")
+    Observable<ResponseBody> getPoisArea();
 }
