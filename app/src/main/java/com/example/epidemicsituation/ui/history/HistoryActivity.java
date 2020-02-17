@@ -1,36 +1,50 @@
 package com.example.epidemicsituation.ui.history;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.adapter.AdapterItemClick;
 import com.example.epidemicsituation.adapter.HistoryAdapter;
+import com.example.epidemicsituation.bean.HistoryInfo;
+import com.example.epidemicsituation.ui.map.MapActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity implements HistoryContract.HistoryView{
     @BindView(R.id.activity_history_back)
     ImageView activityHistoryBack;
     @BindView(R.id.history_rv)
     RecyclerView historyRv;
+    private List<HistoryInfo.DataBean> dataBeanList = new ArrayList<>();
     private HistoryAdapter adapter;
+    private HistoryContract.HistoryPresent present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+        present = new HistoryPresent();
+        present.attachView(this);
         ButterKnife.bind(this);
+        initList();
         adapter.seOnItemClickListener(new AdapterItemClick() {
             @Override
             public void onClick(int position) {
                 //点击跳转到地图页显示详情
-
+                Intent detailIntent = new Intent(HistoryActivity.this, MapActivity.class);
+                detailIntent.putExtra("flag","detail");
+                startActivity(detailIntent);
             }
         });
     }
@@ -38,5 +52,27 @@ public class HistoryActivity extends AppCompatActivity {
     @OnClick(R.id.activity_history_back)
     public void onViewClicked() {
         //返回地图页
+        Intent intent = new Intent(HistoryActivity.this, MapActivity.class);
+        intent.putExtra("flag","back");
+        startActivity(intent);
+    }
+
+    private void initList(){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        historyRv.setLayoutManager(layoutManager);
+        present.getHistoryInfo();
+    }
+
+    @Override
+    public void showHistoryList(HistoryInfo.DataBean dataBean) {
+        //数据来源暂未定
+        adapter=new HistoryAdapter(dataBeanList);
+        historyRv.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        present.detachView();
     }
 }
