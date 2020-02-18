@@ -101,11 +101,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
         setContentView(mContentView);
         ButterKnife.bind(this);
         mPresenter = new RegisterLoginPresenter();
-        //进入页面，默认 登录指示器为选中状态
-        cardLogin.setVisibility(View.VISIBLE);
-        tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login));
-        onIndicatorAnim(tvIndicatorLogin, true);
-
+        initViewsState();
         initViewsOnClickEvent();
         observeEditText();
     }
@@ -114,8 +110,6 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
     protected void onStart() {
         super.onStart();
         mPresenter.attachView(this);
-
-
     }
 
     @Override
@@ -126,6 +120,26 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
             mDisposable.dispose();
         }
     }
+
+    private void initViewsState(){
+        //进入页面，默认 登录指示器为选中状态
+        cardLogin.setVisibility(View.VISIBLE);
+        tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login));
+        onIndicatorAnim(tvIndicatorLogin, true);
+        //设置输入框的 清空内容按钮
+        etPhoneRegister.setShowClearButton(true);
+        etPasswordRegisterConfirm.setShowClearButton(true);
+        etPasswordRegister.setShowClearButton(true);
+        etPhoneLogin.setShowClearButton(true);
+        etPasswordLogin.setShowClearButton(true);
+        //动态设置输入框的提示文字
+        etPasswordRegister.setHelperText("请设置6-15位字母与数字组合的密码");
+        etPasswordRegister.setHelperTextColor(R.color.editText_underline_chosen);
+        etPhoneRegister.setHelperText("请设置正确的11位手机号作为账号");
+        etPhoneRegister.setHelperTextColor(R.color.editText_underline_chosen);
+    }
+
+
 
     private void initViewsOnClickEvent() {
         onTvIndicatorLoginClicked();
@@ -174,6 +188,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
                 //显示注册卡片，隐藏登录卡片
                 cardRegister.setVisibility(View.VISIBLE);
                 cardLogin.setVisibility(View.GONE);
+
             }
         });
     }
@@ -308,7 +323,6 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     @Override
     public void loginFailed(String errorMsg) {
-//        ToastUtils.showLong(errorMsg);
         SnackbarUtils.with(mContentView)
                     .setMessage(errorMsg)
                     .setDuration(SnackbarUtils.LENGTH_SHORT)
@@ -317,15 +331,25 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     @Override
     public void registerSuccess() {
-        ToastUtils.showLong("注册成功!");
+        SnackbarUtils.with(mContentView)
+                .setMessage("注册成功")
+                .setDuration(SnackbarUtils.LENGTH_SHORT)
+                .showSuccess();
+
     }
 
     @Override
     public void registerFailed(String errorMsg) {
-//        ToastUtils.showLong(errorMsg);
         SnackbarUtils.with(mContentView)
                 .setMessage(errorMsg)
                 .setDuration(SnackbarUtils.LENGTH_SHORT)
                 .showError();
+        //清空注册页输入框的内容
+/*        etPhoneRegister.clearValidators();
+        etPasswordRegister.clearComposingText();
+        etPasswordRegisterConfirm.clearFocus();
+        etPasswordRegisterConfirm.clearFocus();*/
+//        etPhoneRegister.clearAnimation();
+        etPhoneRegister.setShowClearButton(true);
     }
 }

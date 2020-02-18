@@ -5,15 +5,20 @@ import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Authenticator;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Route;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,6 +45,8 @@ public class RetrofitManager {
     private static String baseUrl = ApiService.BASE_URL;
     public final static HashMap<String, List<Cookie>> COOKIE_STORE = new HashMap<>();
 
+
+
     private RetrofitManager(){
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .cookieJar(new CookieJar() {
@@ -54,6 +61,8 @@ public class RetrofitManager {
                         return cookies != null ? cookies : new ArrayList<Cookie>();
                     }
                 })
+                .addInterceptor(new RetainHeaderInterceptor())
+//                .addInterceptor(new AddCookiesInterceptor())
                 .retryOnConnectionFailure(true)
                 .connectTimeout(timeoutTime, TimeUnit.SECONDS)
                 .writeTimeout(timeoutTime,TimeUnit.SECONDS)

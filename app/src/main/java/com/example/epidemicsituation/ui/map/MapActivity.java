@@ -266,32 +266,10 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         }
     }
 
-
+    /**
+     * 弹出权限说明弹窗
+     */
     private void popUpRequestPermissionsDialog() {
-/*        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final AlertDialog dialog = builder
-                .setView(R.layout.dialog_request_permission)
-                .create();
-        dialog.show();
-        Window dialogWindow = dialog.getWindow();
-        if(dialogWindow != null) {
-            dialogWindow.findViewById(R.id.btn_agree_dialog_request_permission).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //同意，则申请权限
-                    dialog.dismiss(); //关闭对话框
-                    ToastUtils.showShort("同意获取权限");
-                }
-            });
-            dialogWindow.findViewById(R.id.btn_disagree_dialog_request_permission).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //不同意获取权限，退出
-                    dialog.dismiss(); //取消对话框
-//                    finish();
-                }
-            });
-        }*/
         RequestPermissionsDialog dialog = new RequestPermissionsDialog(this);
         dialog.show(); //在show方法后，才构建视图，否则findViewById 返回 null
         dialog.findViewById(R.id.btn_agree_dialog_request_permission)
@@ -307,7 +285,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
                                     public void accept(Boolean aBoolean) throws Exception {
                                         //检查权限是否获取，提醒用户
                                         if (aBoolean) {
-                                            ToastUtils.showShort("成功获取定位权限");
+//                                            ToastUtils.showShort("成功获取定位权限");
+                                            present.doKeepAliveBackground(); //引导用户设置保活
                                         } else {
                                             ToastUtils.showLong("应用未获取到定位权限，如需正常使用，请前往应用设置中开启");
                                         }

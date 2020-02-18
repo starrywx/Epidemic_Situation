@@ -1,9 +1,14 @@
 package com.example.epidemicsituation.ui.map;
 
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
 import com.amap.api.maps.model.LatLng;
+import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Utils.GsonUtils;
+import com.example.epidemicsituation.Utils.KeepAliveBackgroundUtil;
 import com.example.epidemicsituation.entity.PoisArea;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -151,5 +156,65 @@ public class MapPresent implements MapContract.MapPresent {
     @Override
     public void hidePoisArea() {
         view.clearMap();
+    }
+
+
+
+
+    /****************************应用保活方法***********************************/
+    public void doKeepAliveBackground(){
+        //大于Android 6.0 执行弹窗申请电池白名单优化
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+            requestBatteryWhiteList();
+        }
+        //跳转不同手机厂商系统的后台应用管理页面
+        showBackgroundSettingPage();
+
+    }
+
+    /**
+     * 设置后台电池白名单优化
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestBatteryWhiteList(){
+        if(KeepAliveBackgroundUtil.getInstance().isIgnoringBatteryOptimizations()) {
+            ToastUtils.showShort("您已在电池优化白名单中");
+        } else {
+            KeepAliveBackgroundUtil.getInstance()
+                    .requestIgnoreBatteryOptimizations();
+        }
+    }
+
+    /**
+     * 跳转应用设置页面
+     */
+    private void showBackgroundSettingPage(){
+        if(KeepAliveBackgroundUtil.getInstance().isXiaomi()) {
+            //前往小米应用设置保活
+            KeepAliveBackgroundUtil.getInstance().goXiaomiSetting();
+            ToastUtils.showLong("请将应用加入手机自启动名单");
+        }else if(KeepAliveBackgroundUtil.getInstance().isHuawei()) {
+            //前往华为应用设置保活
+            KeepAliveBackgroundUtil.getInstance().goHuaweiSetting();
+        }else if(KeepAliveBackgroundUtil.getInstance().isOPPO()) {
+            //前往Oppo应用设置
+            KeepAliveBackgroundUtil.getInstance().goOPPOSetting();
+        }else if(KeepAliveBackgroundUtil.getInstance().isVIVO()) {
+            //前往Vivo应用设置
+            KeepAliveBackgroundUtil.getInstance().goVIVOSetting();
+        }else if (KeepAliveBackgroundUtil.getInstance().isSamsung()){
+            //前往三星应用设置
+            KeepAliveBackgroundUtil.getInstance().goSamsungSetting();
+        }else if(KeepAliveBackgroundUtil.getInstance().isMeizu()) {
+            //前往魅族应用设置
+            KeepAliveBackgroundUtil.getInstance().goMeizuSetting();
+        }else if (KeepAliveBackgroundUtil.getInstance().isSmartisan()) {
+            //前往锤子应用设置
+            KeepAliveBackgroundUtil.getInstance().goSmartisanSetting();
+        }else if(KeepAliveBackgroundUtil.getInstance().isLeTV()) {
+            //前往乐视应用设置
+            KeepAliveBackgroundUtil.getInstance().goLetvSetting();
+        }
+
     }
 }
