@@ -38,23 +38,21 @@ public class HistoryActivity extends AppCompatActivity implements HistoryContrac
         present.attachView(this);
         ButterKnife.bind(this);
         initList();
-        adapter.seOnItemClickListener(new AdapterItemClick() {
-            @Override
-            public void onClick(int position) {
-                //点击跳转到地图页显示详情
-                Intent detailIntent = new Intent(HistoryActivity.this, MapActivity.class);
-                detailIntent.putExtra("flag","detail");
-                startActivity(detailIntent);
-            }
-        });
+//        adapter.seOnItemClickListener(new AdapterItemClick() {
+//            @Override
+//            public void onClick(int position) {
+//                //点击跳转到地图页显示详情
+//                Intent detailIntent = new Intent(HistoryActivity.this, MapActivity.class);
+//                detailIntent.putExtra("flag","detail");
+//                startActivity(detailIntent);
+//            }
+//        });
     }
 
     @OnClick(R.id.activity_history_back)
     public void onViewClicked() {
         //返回地图页
-        Intent intent = new Intent(HistoryActivity.this, MapActivity.class);
-        intent.putExtra("flag","back");
-        startActivity(intent);
+        finish();
     }
 
     private void initList(){

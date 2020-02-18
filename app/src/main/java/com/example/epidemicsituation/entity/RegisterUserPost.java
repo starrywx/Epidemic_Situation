@@ -8,47 +8,39 @@ package com.example.epidemicsituation.entity;
 public class RegisterUserPost {
 
     /**
-     * user : {"id":"asd","password":"asd"}
+     * username : asd
+     * password : asd
      */
 
-    private UserBean user;
+    //限制 11位手机号码
+    private String username;
+    //限制6-9位数字与字母搭配
+    private String password;
 
-    public UserBean getUser() {
-        return user;
+    /**
+     * 构造方法
+     * @param useName
+     * @param password
+     */
+    public RegisterUserPost(String useName ,String password) {
+        this.username = useName;
+        this.password = password;
     }
 
-    public void setUser(UserBean user) {
-        this.user = user;
+
+    public String getUsername() {
+        return username;
     }
 
-    public static class UserBean {
-        /**
-         * id : asd
-         * password : asd
-         */
-        private String id;
-        private String password;
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
+    public String getPassword() {
+        return password;
+    }
 
-        public UserBean(String id , String password){
-            this.id = id;
-            this.password = password;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -6,7 +6,7 @@ package com.example.epidemicsituation.ui.RegisterLogin;
  * @date: 2020/2/14
  */
 
-public class RegisterLoginContract {
+public class RegisterLoginContract  {
 
      interface View{
          /**
@@ -17,7 +17,7 @@ public class RegisterLoginContract {
          /**
           * 登录失败
           */
-         void loginFailed();
+         void loginFailed(String errorMsg);
 
          /**
           *  注册成功
@@ -27,11 +27,11 @@ public class RegisterLoginContract {
          /**
           * 注册失败
           */
-        void registerFailed();
+        void registerFailed(String errorMsg);
     }
 
 
-     interface Presenter{
+     interface Presenter {
 
          /**
           * 登录

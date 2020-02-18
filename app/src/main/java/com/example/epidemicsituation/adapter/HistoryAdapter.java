@@ -51,15 +51,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = viewHolder.getAdapterPosition();
-                if(adapterItemClick != null){
-                    adapterItemClick.onClick(position);
-                }
-            }
-        });
+//        viewHolder.view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int position = viewHolder.getAdapterPosition();
+//                if(adapterItemClick != null){
+//                    adapterItemClick.onClick(position);
+//                }
+//            }
+//        });
         return viewHolder;
     }
 

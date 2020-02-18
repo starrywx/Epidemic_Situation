@@ -9,7 +9,8 @@ android {
 //            keyPassword 'android'
 //        }
 //    }
-    compileSdkVersion 29
+
+compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.epidemicsituation"
@@ -23,14 +24,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-//    buildTypes {
-//        release {
-//            signingConfig signingConfigs.debug_wx
-//        }
-//        debug {
-//            signingConfig signingConfigs.debug_wx
-//        }
-//    }
+/*    buildTypes {
+        release {
+            signingConfig signingConfigs.debug_wx
+        }
+        debug {
+            signingConfig signingConfigs.debug_wx
+        }
+    }*/
     buildTypes {
         release {
             minifyEnabled false

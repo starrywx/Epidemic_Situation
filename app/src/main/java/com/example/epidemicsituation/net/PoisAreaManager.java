@@ -1,35 +1,23 @@
 package com.example.epidemicsituation.net;
 
-
-import android.util.Log;
-
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Authenticator;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.Route;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Retrofit管理者
- * 线程安全的单例类,用于请求网络
- */
-public class RetrofitManager {
+public class PoisAreaManager {
 
-    private static RetrofitManager retrofitManager;
+    private static PoisAreaManager poisAreaManager;
     private Retrofit retrofit;
     private ApiService service;
     private static int DEFAULT_TIME_OUT = 8;
@@ -42,12 +30,10 @@ public class RetrofitManager {
     /**
      * 服务器ip地址
      */
-    private static String baseUrl = ApiService.BASE_URL;
+    private static String baseUrl = ApiService.POIS_AREA_URL;
     public final static HashMap<String, List<Cookie>> COOKIE_STORE = new HashMap<>();
 
-
-
-    private RetrofitManager(){
+    private PoisAreaManager(){
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .cookieJar(new CookieJar() {
                     @Override
@@ -61,8 +47,6 @@ public class RetrofitManager {
                         return cookies != null ? cookies : new ArrayList<Cookie>();
                     }
                 })
-                .addInterceptor(new RetainHeaderInterceptor())
-//                .addInterceptor(new AddCookiesInterceptor())
                 .retryOnConnectionFailure(true)
                 .connectTimeout(timeoutTime, TimeUnit.SECONDS)
                 .writeTimeout(timeoutTime,TimeUnit.SECONDS)
@@ -82,15 +66,15 @@ public class RetrofitManager {
      * 获取网络管理的manager
      * @return 该单例类
      */
-    public static RetrofitManager getInstance(){
-        if(retrofitManager == null){
+    public static PoisAreaManager getInstance(){
+        if(poisAreaManager == null){
             synchronized (Object.class){
-                if(retrofitManager == null){
-                    retrofitManager = new RetrofitManager();
+                if(poisAreaManager == null){
+                    poisAreaManager = new PoisAreaManager();
                 }
             }
         }
-        return retrofitManager;
+        return poisAreaManager;
     }
 
     /**
@@ -99,22 +83,5 @@ public class RetrofitManager {
      */
     public ApiService getApiService() {
         return service;
-    }
-
-    /**
-     * 重新设置服务器和超时时间
-     * @param timeout 超时时间
-     * @param url 服务器地址
-     */
-    public static void setTimeoutAndUrl(int timeout,String url){
-        timeoutTime = timeout;
-        Log.d("RetorfitManager","" + timeoutTime);
-        baseUrl = url;
-        //重新生成service
-        retrofitManager = new RetrofitManager();
-    }
-
-    public static int getTimeoutTime(){
-        return timeoutTime;
     }
 }

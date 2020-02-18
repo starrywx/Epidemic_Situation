@@ -56,6 +56,8 @@ public class TimerPickDialog extends Dialog {
 
     private boolean isChooseStart = true;
 
+    private ClickConfig configLinten;
+
     public TimerPickDialog(@NonNull Context context) {
         super(context);
     }
@@ -183,10 +185,26 @@ public class TimerPickDialog extends Dialog {
                 tpGotoTime(end);
                 break;
             case R.id.tv_cancel:
+                cancel();
                 break;
             case R.id.tv_config:
+                if (configLinten != null) {
+                    configLinten.onClick(TimerPickDialog.this);
+                }
                 break;
         }
+    }
+
+    public int[] getStart() {
+        return start;
+    }
+
+    public int[] getEnd() {
+        return end;
+    }
+
+    public void setConfigLinten(ClickConfig configLinten) {
+        this.configLinten = configLinten;
     }
 
     public static boolean AContainB(int[] A, int B) {

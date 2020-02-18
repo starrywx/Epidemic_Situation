@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.epidemicsituation.R;
+import com.example.epidemicsituation.adapter.AdapterItemClick;
+import com.example.epidemicsituation.ui.map.MapActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,9 +21,10 @@ public class LogOutDialog extends Dialog {
     TextView dialogLogOutCancel;
     @BindView(R.id.dialog_log_out_sure)
     TextView dialogLogOutSure;
+    private AdapterItemClick adapterItemClick;
 
-    public LogOutDialog(@NonNull Context context, int themeResId) {
-        super(context, themeResId);
+    public LogOutDialog(@NonNull Context context) {
+        super(context);
     }
 
     @Override
@@ -38,11 +41,14 @@ public class LogOutDialog extends Dialog {
                 cancel();
                 break;
             case R.id.dialog_log_out_sure:
-                //退出登录
-
+                adapterItemClick.onClick(0);
                 break;
                 default:
                     break;
         }
+    }
+
+    public void seOnItemClickListener(AdapterItemClick adapterItemClick){
+        this.adapterItemClick = adapterItemClick;
     }
 }

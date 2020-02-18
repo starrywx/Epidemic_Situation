@@ -2,7 +2,10 @@ package com.example.epidemicsituation.ui.RegisterLogin;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,11 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SnackbarUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
@@ -85,29 +90,56 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     Disposable mDisposable;
 
+    private RegisterLoginPresenter mPresenter;
+
+    private View mContentView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_login);
+        mContentView = LayoutInflater.from(this).inflate(R.layout.activity_register_login, null);
+        setContentView(mContentView);
         ButterKnife.bind(this);
-        //进入页面，默认 登录指示器为选中状态
-        cardLogin.setVisibility(View.VISIBLE);
-        tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login));
-        onIndicatorAnim(tvIndicatorLogin, true);
-
+        mPresenter = new RegisterLoginPresenter();
+        initViewsState();
         initViewsOnClickEvent();
         observeEditText();
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.attachView(this);
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mPresenter.detachView();
         if(mDisposable != null) {
             mDisposable.dispose();
         }
     }
+
+    private void initViewsState(){
+        //进入页面，默认 登录指示器为选中状态
+        cardLogin.setVisibility(View.VISIBLE);
+        tvIndicatorLogin.setTextColor(getResources().getColor(R.color.indicator_login));
+        onIndicatorAnim(tvIndicatorLogin, true);
+        //设置输入框的 清空内容按钮
+        etPhoneRegister.setShowClearButton(true);
+        etPasswordRegisterConfirm.setShowClearButton(true);
+        etPasswordRegister.setShowClearButton(true);
+        etPhoneLogin.setShowClearButton(true);
+        etPasswordLogin.setShowClearButton(true);
+        //动态设置输入框的提示文字
+        etPasswordRegister.setHelperText("请设置6-15位字母与数字组合的密码");
+        etPasswordRegister.setHelperTextColor(R.color.editText_underline_chosen);
+        etPhoneRegister.setHelperText("请设置正确的11位手机号作为账号");
+        etPhoneRegister.setHelperTextColor(R.color.editText_underline_chosen);
+    }
+
+
 
     private void initViewsOnClickEvent() {
         onTvIndicatorLoginClicked();
@@ -156,6 +188,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
                 //显示注册卡片，隐藏登录卡片
                 cardRegister.setVisibility(View.VISIBLE);
                 cardLogin.setVisibility(View.GONE);
+
             }
         });
     }
@@ -168,7 +201,9 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginSuccess();
+                String phoneNumber = etPhoneLogin.getText().toString();
+                String password = etPasswordLogin.getText().toString();
+               mPresenter.login(phoneNumber ,password);
             }
         });
     }
@@ -179,9 +214,20 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
     @OnClick(R.id.btn_register)
     public void onRegisterButtonClicked() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                ToastUtils.showShort("触发注册事件");
+//                mPresenter.doKeepAliveBackground();
+                String phoneNumber = etPhoneRegister.getText().toString();
+                String password = etPasswordRegister.getText().toString();
+                String password_con = etPasswordRegisterConfirm.getText().toString();
+                if(! password.equals(password_con)){
+                    //密码与确认密码不同，提示用户
+                    etPasswordRegisterConfirm.setError("确认密码与密码不一致，请输入一致!");
+                } else {
+                    //密码与确认密码相同，发起请求--注册
+                    mPresenter.register(phoneNumber , password);
+                }
             }
         });
     }
@@ -271,21 +317,39 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     @Override
     public void loginSuccess() {
+        //跳转地图页
         startActivity(new Intent(this, MapActivity.class));
     }
 
     @Override
-    public void loginFailed() {
-
+    public void loginFailed(String errorMsg) {
+        SnackbarUtils.with(mContentView)
+                    .setMessage(errorMsg)
+                    .setDuration(SnackbarUtils.LENGTH_SHORT)
+                    .showError();
     }
 
     @Override
     public void registerSuccess() {
+        SnackbarUtils.with(mContentView)
+                .setMessage("注册成功")
+                .setDuration(SnackbarUtils.LENGTH_SHORT)
+                .showSuccess();
 
     }
 
     @Override
-    public void registerFailed() {
-
+    public void registerFailed(String errorMsg) {
+        SnackbarUtils.with(mContentView)
+                .setMessage(errorMsg)
+                .setDuration(SnackbarUtils.LENGTH_SHORT)
+                .showError();
+        //清空注册页输入框的内容
+/*        etPhoneRegister.clearValidators();
+        etPasswordRegister.clearComposingText();
+        etPasswordRegisterConfirm.clearFocus();
+        etPasswordRegisterConfirm.clearFocus();*/
+//        etPhoneRegister.clearAnimation();
+        etPhoneRegister.setShowClearButton(true);
     }
 }
