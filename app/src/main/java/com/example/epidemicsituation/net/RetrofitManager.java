@@ -62,7 +62,7 @@ public class RetrofitManager {
                     }
                 })
                 .addInterceptor(new RetainHeaderInterceptor())
-//                .addInterceptor(new AddCookiesInterceptor())
+                .addInterceptor(new AddCookiesInterceptor())
                 .retryOnConnectionFailure(true)
                 .connectTimeout(timeoutTime, TimeUnit.SECONDS)
                 .writeTimeout(timeoutTime,TimeUnit.SECONDS)

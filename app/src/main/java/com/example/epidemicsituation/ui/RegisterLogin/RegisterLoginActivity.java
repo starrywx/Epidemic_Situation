@@ -146,7 +146,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
         onTvIndicatorRegisterClicked();
         onLoginButtonClicked();
         onRegisterButtonClicked();
-        onTvGetVerificationClicked();
+//        onTvGetVerificationClicked();
     }
 
     /**
@@ -228,6 +228,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
                     //密码与确认密码相同，发起请求--注册
                     mPresenter.register(phoneNumber , password);
                 }
+
             }
         });
     }
@@ -344,12 +345,5 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
                 .setMessage(errorMsg)
                 .setDuration(SnackbarUtils.LENGTH_SHORT)
                 .showError();
-        //清空注册页输入框的内容
-/*        etPhoneRegister.clearValidators();
-        etPasswordRegister.clearComposingText();
-        etPasswordRegisterConfirm.clearFocus();
-        etPasswordRegisterConfirm.clearFocus();*/
-//        etPhoneRegister.clearAnimation();
-        etPhoneRegister.setShowClearButton(true);
     }
 }
