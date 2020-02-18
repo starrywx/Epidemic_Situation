@@ -7,49 +7,38 @@ package com.example.epidemicsituation.entity;
  */
 public class LoginUserPost {
 
+
     /**
-     * user : {"id":"asd","password":"asd"}
+     * username : asd
+     * password : asd
      */
 
+    private String username;
+    private String password;
 
-    private UserBean user;
-
-    public UserBean getUser() {
-        return user;
+    /**
+     * 构造方法
+     * @param useName
+     * @param password
+     */
+    public LoginUserPost(String useName ,String password) {
+        this.username = useName;
+        this.password = password;
     }
 
-    public void setUser(UserBean user) {
-        this.user = user;
+    public String getUsername() {
+        return username;
     }
 
-    public static class UserBean {
-        /**
-         * id : asd
-         * password : asd
-         */
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-        private String id;
-        private String password;
+    public String getPassword() {
+        return password;
+    }
 
-        public UserBean(String id , String password){
-            this.id = id;
-            this.password = password;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

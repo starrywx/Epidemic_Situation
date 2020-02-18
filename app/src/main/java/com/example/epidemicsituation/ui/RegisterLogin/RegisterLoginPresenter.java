@@ -11,8 +11,11 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BasePresent;
 import com.example.epidemicsituation.BuildConfig;
 import com.example.epidemicsituation.Utils.KeepAliveBackgroundUtil;
+import com.example.epidemicsituation.entity.LoginUserCallback;
 import com.example.epidemicsituation.entity.LoginUserPost;
+import com.example.epidemicsituation.entity.RegisterUserCallback;
 import com.example.epidemicsituation.entity.RegisterUserPost;
+import com.example.epidemicsituation.net.RetrofitManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,6 +27,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -39,6 +46,8 @@ import okhttp3.ResponseBody;
  * @date: 2020/2/14
  */
 public class RegisterLoginPresenter   implements BasePresent<RegisterLoginActivity> ,RegisterLoginContract.Presenter {
+
+
 
     /**
      * View 层引用
@@ -65,21 +74,88 @@ public class RegisterLoginPresenter   implements BasePresent<RegisterLoginActivi
 
     @Override
     public void login(String userName, String password) {
-        LoginUserPost loginUserPost = new LoginUserPost();
-        loginUserPost.setUser(new LoginUserPost.UserBean(userName,password));
+
+        LoginUserPost loginUserPost = new LoginUserPost(userName , password);
+
         String body = GsonUtils.toJson(loginUserPost);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), body);
         //调用Retrofit
+        RetrofitManager.getInstance()
+                .getApiService()
+                .loginUserPost(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<LoginUserCallback>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(LoginUserCallback loginUserCallback) {
+                        LogUtils.d(GsonUtils.toJson(loginUserCallback));
+                        if("-1".equals(loginUserCallback.getCode())) {
+                            LogUtils.e(loginUserCallback.getMessage());
+                            mView.loginFailed(loginUserCallback.getMessage());
+                        } else {
+                            mView.loginSuccess();
+
+                            //持久化 用户登录回调 Header 中的 Authorization ,供其他功能使用
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.loginFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+
+
     }
 
     @Override
     public void register(String userName, String password) {
-        RegisterUserPost registerUserPost = new RegisterUserPost();
-        registerUserPost.setUser(new RegisterUserPost.UserBean(userName ,password));
+        RegisterUserPost registerUserPost = new RegisterUserPost(userName , password);
         String body = GsonUtils.toJson(registerUserPost);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), body);
-
         //调用Retrofit
+        RetrofitManager.getInstance()
+                .getApiService()
+                .registerUserPost(requestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RegisterUserCallback>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(RegisterUserCallback registerUserCallback) {
+                        if(registerUserCallback.getCode().equals("-1") ) {
+                            mView.registerFailed(registerUserCallback.getMessage());
+                        }else {
+                            mView.registerSuccess();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.registerFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
 

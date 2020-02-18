@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import androidx.cardview.widget.CardView;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SnackbarUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
@@ -90,10 +92,13 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     private RegisterLoginPresenter mPresenter;
 
+    private View mContentView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_login);
+        mContentView = LayoutInflater.from(this).inflate(R.layout.activity_register_login, null);
+        setContentView(mContentView);
         ButterKnife.bind(this);
         mPresenter = new RegisterLoginPresenter();
         //进入页面，默认 登录指示器为选中状态
@@ -181,7 +186,9 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginSuccess();
+                String phoneNumber = etPhoneLogin.getText().toString();
+                String password = etPasswordLogin.getText().toString();
+               mPresenter.login(phoneNumber ,password);
             }
         });
     }
@@ -195,16 +202,17 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                ToastUtils.showShort("触发注册事件");
 //                mPresenter.doKeepAliveBackground();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        int[] a = new int[]{0,1,2};
-                        int b = a[4];
-                    }
-                }, 8000);// 8秒钟后执行
+                String phoneNumber = etPhoneRegister.getText().toString();
+                String password = etPasswordRegister.getText().toString();
+                String password_con = etPasswordRegisterConfirm.getText().toString();
+                if(! password.equals(password_con)){
+                    //密码与确认密码不同，提示用户
+                    etPasswordRegisterConfirm.setError("确认密码与密码不一致，请输入一致!");
+                } else {
+                    //密码与确认密码相同，发起请求--注册
+                    mPresenter.register(phoneNumber , password);
+                }
             }
         });
     }
@@ -294,21 +302,30 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     @Override
     public void loginSuccess() {
+        //跳转地图页
         startActivity(new Intent(this, MapActivity.class));
     }
 
     @Override
-    public void loginFailed() {
-
+    public void loginFailed(String errorMsg) {
+//        ToastUtils.showLong(errorMsg);
+        SnackbarUtils.with(mContentView)
+                    .setMessage(errorMsg)
+                    .setDuration(SnackbarUtils.LENGTH_SHORT)
+                    .showError();
     }
 
     @Override
     public void registerSuccess() {
-
+        ToastUtils.showLong("注册成功!");
     }
 
     @Override
-    public void registerFailed() {
-
+    public void registerFailed(String errorMsg) {
+//        ToastUtils.showLong(errorMsg);
+        SnackbarUtils.with(mContentView)
+                .setMessage(errorMsg)
+                .setDuration(SnackbarUtils.LENGTH_SHORT)
+                .showError();
     }
 }

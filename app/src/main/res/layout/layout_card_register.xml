@@ -49,6 +49,7 @@
             android:layout_below="@id/et_phone_register"
             android:layout_alignStart="@id/et_phone_register"
             android:layout_marginTop="15dp"
+            android:visibility="gone"
             />
 
             <RelativeLayout
@@ -57,6 +58,7 @@
             android:layout_height = "wrap_content"
             android:layout_alignStart="@id/tv_phone_register"
             android:layout_below="@id/tv_verification"
+            android:visibility="gone"
             >
                <com.rengwuxian.materialedittext.MaterialEditText
                android:id = "@+id/et_verification"
@@ -78,6 +80,7 @@
             android:textColor="@color/able_get_verification_disable"
             android:textSize="16sp"
             android:clickable="true"
+            android:visibility="invisible"
             />
 
             <View

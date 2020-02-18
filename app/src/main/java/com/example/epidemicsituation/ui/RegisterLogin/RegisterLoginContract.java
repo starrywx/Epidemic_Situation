@@ -17,7 +17,7 @@ public class RegisterLoginContract  {
          /**
           * 登录失败
           */
-         void loginFailed();
+         void loginFailed(String errorMsg);
 
          /**
           *  注册成功
@@ -27,7 +27,7 @@ public class RegisterLoginContract  {
          /**
           * 注册失败
           */
-        void registerFailed();
+        void registerFailed(String errorMsg);
     }
 
 
