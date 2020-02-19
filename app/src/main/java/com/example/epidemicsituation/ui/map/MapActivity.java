@@ -29,8 +29,10 @@ import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.model.TileOverlayOptions;
 import com.amap.api.maps.model.WeightedLatLng;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
+import com.example.epidemicsituation.Constants;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.adapter.AdapterItemClick;
 import com.example.epidemicsituation.ui.dialog.ClickConfig;
@@ -96,6 +98,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
