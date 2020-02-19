@@ -2,6 +2,7 @@ package com.example.epidemicsituation.ui.map;
 
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.WeightedLatLng;
+import com.example.epidemicsituation.bean.PersonalTraInfo;
 import com.example.epidemicsituation.entity.PoisArea;
 
 import java.util.List;
@@ -21,6 +22,16 @@ public interface MapContract {
         void drawPoint(LatLng latLng, String place);
 
         void drawPolygon(List<LatLng> latLngs, String place);
+
+        void showLoading();
+
+        void hidLoading();
+
+        void setPerTraFalse();
+
+        void setHeatMapFalse();
+
+        void setPoisArea();
     }
 
     interface MapPresent {
@@ -31,7 +42,7 @@ public interface MapContract {
 
         void pollingHeatMap();
 
-        void showPersonalTrajectory();
+        void showPersonalTrajectory(String startTime, String endTime);
 
         void stopPollHeatMap();
 
@@ -47,7 +58,7 @@ public interface MapContract {
 
         Observable<List<WeightedLatLng>> getHeatPoint();
 
-        Observable<List<LatLng>> getPersonalTrajectory();
+        Observable<PersonalTraInfo> getPersonalTrajectory(String startTime, String endTime);
 
         Observable<List<PoisArea>> getPoisArea();
     }

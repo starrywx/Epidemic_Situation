@@ -38,10 +38,11 @@ import com.example.epidemicsituation.ui.dialog.LogOutDialog;
 import com.example.epidemicsituation.ui.dialog.RequestPermissionsDialog;
 import com.example.epidemicsituation.ui.dialog.TimerPickDialog;
 import com.example.epidemicsituation.ui.history.HistoryActivity;
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.text.MessageFormat;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +70,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     ImageView imvHistory;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
+    @BindView(R.id.spin_kit)
+    SpinKitView spinKit;
 
     private MapPresent present;
 
@@ -88,6 +91,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     private static final String TAG = "MapActivity";
 
     private boolean isFirst = true;
+
+    private static final String TIME_FORMAT = "{0}-{1}-{2} {3}:00:00";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,6 +224,10 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
                     ToastUtils.showShort("请先关闭热力图功能");
                     return;
                 }
+                if (isPoisArea) {
+                    ToastUtils.showShort("请先关闭个人轨迹功能");
+                    return;
+                }
                 if (isPersonalTrajectory) {
                     closePersonalTrajectory();
                 } else {
@@ -250,6 +259,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
      */
     private void closePersonalTrajectory() {
         isPersonalTrajectory = false;
+
+        clearMap();
     }
 
     /**
@@ -261,7 +272,12 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         timerPickDialog.setConfigLinten(new ClickConfig() {
             @Override
             public void onClick(Dialog d) {
-
+                int[] start = timerPickDialog.getStart();
+                String startTime = MessageFormat.format(TIME_FORMAT, start[0], start[1], start[2]);
+                String endTime = MessageFormat.format(TIME_FORMAT, start[0], start[1], start[2]);
+                present.showPersonalTrajectory(startTime, endTime);
+                personalTrajectoryIv.setImageResource(R.mipmap.ic_personal_trajectory_open);
+                d.cancel();
             }
         });
     }
@@ -312,7 +328,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     private void closeHeatMap() {
         isHeatMapOpen = false;
         heatMapIv.setImageResource(R.mipmap.ic_heat_map_button);
-        mAmap.clear();
+        clearMap();
     }
 
     private void checkLocatePermission() {
@@ -406,5 +422,34 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         }
     }
 
+    @Override
+    public void showLoading() {
+        spinKit.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void hidLoading() {
+        spinKit.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setPerTraFalse() {
+        isPersonalTrajectory = false;
+        personalTrajectoryIv.setImageResource(R.mipmap.ic_personal_trajectory);
+        clearMap();
+    }
+
+    @Override
+    public void setHeatMapFalse() {
+        isHeatMapOpen = false;
+        heatMapIv.setImageResource(R.mipmap.ic_heat_map_button);
+        clearMap();
+    }
+
+    @Override
+    public void setPoisArea() {
+        isPoisArea = false;
+
+        clearMap();
+    }
 }

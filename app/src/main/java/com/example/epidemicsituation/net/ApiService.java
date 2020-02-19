@@ -1,5 +1,7 @@
 package com.example.epidemicsituation.net;
 
+import com.example.epidemicsituation.bean.PerTraReqInfo;
+import com.example.epidemicsituation.bean.PersonalTraInfo;
 import com.example.epidemicsituation.entity.LoginUserCallback;
 import com.example.epidemicsituation.entity.LoginUserPost;
 import com.example.epidemicsituation.entity.PoisArea;
@@ -44,4 +46,8 @@ public interface ApiService {
 
     @GET("https://oss.mapmiao.com/others/ncov/data.json?timestamp=999999999999999")
     Observable<ResponseBody> getPoisArea();
+
+    @Headers({"Content-type:application/json;charset=UTF-8"})
+    @POST("user/register")
+    Observable<PersonalTraInfo> getPersonalTraInfo(@Body PerTraReqInfo personalTraInfo);
 }
