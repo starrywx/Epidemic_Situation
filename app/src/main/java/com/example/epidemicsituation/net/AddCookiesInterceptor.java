@@ -31,11 +31,8 @@ public class AddCookiesInterceptor implements Interceptor {
             HashSet<String> preferences = (HashSet<String>) cookiesSet; //转换成HashSet
             for (String cookie : preferences) {
                 builder.addHeader("Cookie", cookie);
-//                Log.v("OkHttp", "Adding Header Cookies : " + cookie);
-//                LogUtils.a("Adding Header Cookies : " + cookie);
             }
         }
-
         return chain.proceed(builder.build());
     }
 }
