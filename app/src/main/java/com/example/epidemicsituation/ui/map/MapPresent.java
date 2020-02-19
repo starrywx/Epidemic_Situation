@@ -68,7 +68,7 @@ public class MapPresent implements MapContract.MapPresent {
 
                         view.showLoading();
 
-                        if (personalTraInfo.getCode() == 0 && personalTraInfo.getMessage().equals("success")) {
+                        if (personalTraInfo.getCode() == 1 && personalTraInfo.getMessage().equals("success")) {
                             List<PersonalTraInfo.DataBean> dataBeans = personalTraInfo.getData();
                             if (dataBeans != null && dataBeans.size() > 0) {
                                 List<LatLng> latLngs = new ArrayList<>();

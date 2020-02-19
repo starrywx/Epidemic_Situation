@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -272,9 +273,13 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         timerPickDialog.setConfigLinten(new ClickConfig() {
             @Override
             public void onClick(Dialog d) {
+                isPersonalTrajectory = true;
                 int[] start = timerPickDialog.getStart();
-                String startTime = MessageFormat.format(TIME_FORMAT, start[0], start[1], start[2]);
-                String endTime = MessageFormat.format(TIME_FORMAT, start[0], start[1], start[2]);
+                int[] end = timerPickDialog.getEnd();
+                String startTime = MessageFormat.format(TIME_FORMAT, start[0], start[1], start[2], start[3]).replace(",","");
+                String endTime = MessageFormat.format(TIME_FORMAT, end[0], end[1], end[2], end[3]).replace(",","");
+                Log.d(TAG, "starttime:" + startTime);
+                Log.d(TAG, "endtime:" + endTime);
                 present.showPersonalTrajectory(startTime, endTime);
                 personalTrajectoryIv.setImageResource(R.mipmap.ic_personal_trajectory_open);
                 d.cancel();

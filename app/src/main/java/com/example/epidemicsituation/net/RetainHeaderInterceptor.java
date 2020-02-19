@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import okhttp3.Interceptor;
+import okhttp3.Request;
 import okhttp3.Response;
 
 /**
@@ -25,7 +26,17 @@ public class RetainHeaderInterceptor implements Interceptor {
     @NotNull
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Response originalResponse = chain.proceed(chain.request());
+
+        Request.Builder builder = chain.request().newBuilder();
+
+        if (!SPUtils.getInstance().getString(Constants.USER_AUTHORIZATION,"").equals("")) {
+            String authorization = SPUtils.getInstance().getString(Constants.USER_AUTHORIZATION);
+            builder.addHeader("Authorization", authorization);
+        }
+
+        Request request = builder.build();
+
+        Response originalResponse = chain.proceed(request);
 
 /*        if (!originalResponse.headers("Set-Cookie").isEmpty()) {
 
@@ -40,7 +51,7 @@ public class RetainHeaderInterceptor implements Interceptor {
         if( originalResponse.header("Authorization") != null) {
             String authorization = originalResponse.header("Authorization");
             if (authorization != null) {
-//                Log.d("authorization" , authorization);
+                Log.d("authorization" , authorization);
                 SPUtils.getInstance().put(Constants.USER_AUTHORIZATION,authorization);
             }
 
