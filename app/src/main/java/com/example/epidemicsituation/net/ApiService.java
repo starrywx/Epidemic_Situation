@@ -48,6 +48,6 @@ public interface ApiService {
     Observable<ResponseBody> getPoisArea();
 
     @Headers({"Content-type:application/json;charset=UTF-8"})
-    @POST("user/register")
+    @POST("/core/listSickdata")
     Observable<PersonalTraInfo> getPersonalTraInfo(@Body PerTraReqInfo personalTraInfo);
 }
