@@ -2,8 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="210dp"
-    android:layout_height="108dp"
+    android:layout_width="299dp"
+    android:layout_height="126dp"
     android:background="@drawable/alert_bg">
 
     <TextView
@@ -11,38 +11,40 @@
         android:layout_height="26dp"
         android:text="是否退出登录"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="23sp"
         android:textStyle="normal"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="29dp"
         android:layout_centerHorizontal="true"
         />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp">
+        android:layout_marginTop="88dp">
 
         <TextView
             android:id="@+id/dialog_log_out_cancel"
-            android:layout_width="36dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="51dp"
+            android:layout_centerVertical="true"
             android:text="取消"
             android:textColor="#ff888888"
             android:textSize="18sp"
             />
         <View
             android:layout_width="1dp"
-            android:layout_height="24dp"
+            android:layout_height="28dp"
             android:background="#888888"
             android:layout_centerHorizontal="true"
             />
         <TextView
             android:id="@+id/dialog_log_out_sure"
-            android:layout_width="36dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="34dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="50dp"
             android:text="确定"
             android:textColor="#ff5ca2fa"
             android:textSize="18sp"

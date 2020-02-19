@@ -31,7 +31,6 @@
 
         <activity android:name=".ui.map.MapActivity"
             android:launchMode="singleInstance"/>
-
         <activity android:name=".ui.history.HistoryActivity"
             android:launchMode="singleTop"/>
         <activity
