@@ -7,7 +7,8 @@
     <item>
         <bitmap
         android:gravity="center"
-        android:src="@drawable/icon_login_register" />
+        android:src="@drawable/splash_logo_center" />
     </item>
+
 
 </layer-list>
