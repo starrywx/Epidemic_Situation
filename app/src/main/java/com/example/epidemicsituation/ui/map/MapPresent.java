@@ -9,6 +9,8 @@ import com.amap.api.maps.model.LatLng;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Utils.GsonUtils;
 import com.example.epidemicsituation.Utils.KeepAliveBackgroundUtil;
+import com.example.epidemicsituation.bean.PerTraReqInfo;
+import com.example.epidemicsituation.bean.PersonalTraInfo;
 import com.example.epidemicsituation.entity.PoisArea;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -50,8 +52,51 @@ public class MapPresent implements MapContract.MapPresent {
     }
 
     @Override
-    public void showPersonalTrajectory() {
+    public void showPersonalTrajectory(String startTime, String endTime){
+        model.getPersonalTrajectory(startTime,endTime)
+                .subscribe(new Observer<PersonalTraInfo>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
+                    }
+
+                    @Override
+                    public void onNext(PersonalTraInfo personalTraInfo) {
+                        if(personalTraInfo == null) {
+                            return;
+                        }
+
+                        view.showLoading();
+
+                        if (personalTraInfo.getCode() == 1 && personalTraInfo.getMessage().equals("success")) {
+                            List<PersonalTraInfo.DataBean> dataBeans = personalTraInfo.getData();
+                            if (dataBeans != null && dataBeans.size() > 0) {
+                                List<LatLng> latLngs = new ArrayList<>();
+                                for (PersonalTraInfo.DataBean temp: dataBeans) {
+                                    latLngs.add(new LatLng(temp.getLat(), temp.getLon()));
+                                    Log.d(TAG, temp.getLat() + ":" + temp.getLon());
+                                }
+                                view.drawTrajectory(latLngs);
+                            }
+                        }else {
+                            view.setPerTraFalse();
+                            ToastUtils.showShort(personalTraInfo.getMessage());
+                            view.hidLoading();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.setPerTraFalse();
+                        ToastUtils.showShort("网络异常");
+                        view.hidLoading();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        view.hidLoading();
+                    }
+                });
     }
 
     @Override
@@ -79,6 +124,7 @@ public class MapPresent implements MapContract.MapPresent {
                         if (poisAreas == null) {
                             return;
                         }
+                        view.showLoading();
                         for (PoisArea poisArea : poisAreas) {
                             if (poisArea != null) {
                                 Log.d(TAG, "拿到数据");
@@ -117,16 +163,6 @@ public class MapPresent implements MapContract.MapPresent {
                                                             view.drawPolygon(latLngs, temp.getName());
                                                         }
                                                     }
-                                                    /*List<Double> coordinates = geo.getCoordinates();
-                                                    List<LatLng> latLngs = new ArrayList<>();
-                                                    for (int i = 0; i < coordinates.size(); i += 2) {
-                                                        Log.d(TAG, coordinates.get(i) + ":" + coordinates.get(i + 1));
-                                                        LatLng latLng = new LatLng(coordinates.get(i), coordinates.get(i + 1));
-                                                        latLngs.add(latLng);
-                                                    }
-                                                    if (view != null) {
-                                                        view.drawPolygon(latLngs, temp.getName());
-                                                    }*/
                                                 }else {
                                                     Log.d(TAG, "pois遗漏的type: " + type);
                                                 }
@@ -142,13 +178,14 @@ public class MapPresent implements MapContract.MapPresent {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Log.d(TAG, e.getMessage());
-
+                        ToastUtils.showShort("网络异常");
+                        view.hidLoading();
+                        view.setPoisArea();
                     }
 
                     @Override
                     public void onComplete() {
-
+                        view.hidLoading();
                     }
                 });
     }

@@ -134,7 +134,6 @@ public class PoisArea {
                 }
                 this.coordinates = coordinates;
             }
-
         }
 
         public static class PointBean {
