@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.dialog.RealTimeRiskDialogActivity"
-            android:theme="@style/DialogActivityStyle"></activity>
+            android:theme="@style/ActivityDialogStyle"></activity>
 
         <service
             android:name=".service.LocationService"

@@ -21,6 +21,7 @@ import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.bean.RealTimeLocation;
 import com.example.epidemicsituation.bean.RiskInfo;
 import com.example.epidemicsituation.net.RetrofitManager;
+import com.example.epidemicsituation.ui.dialog.RealTimeRiskDialogActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -147,6 +148,9 @@ public class LocationService extends Service implements AMapLocationListener {
 
                     @Override
                     public void onNext(RiskInfo riskInfo) {
+                        Intent intent = new Intent(LocationService.this, RealTimeRiskDialogActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                         Log.d(TAG, "code:" + riskInfo.getCode() + "\n" + "data:" + riskInfo.isData());
                     }
 
