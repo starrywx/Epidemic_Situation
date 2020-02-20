@@ -37,7 +37,6 @@ public class RetainHeaderInterceptor implements Interceptor {
         Request request = builder.build();
 
         Response originalResponse = chain.proceed(request);
-
 /*        if (!originalResponse.headers("Set-Cookie").isEmpty()) {
 
             HashSet<String> cookies = new HashSet<>(originalResponse.headers("Set-Cookie"));

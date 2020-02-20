@@ -3,6 +3,8 @@ package com.example.epidemicsituation.net;
 import com.example.epidemicsituation.bean.HistoryInfo;
 import com.example.epidemicsituation.bean.PerTraReqInfo;
 import com.example.epidemicsituation.bean.PersonalTraInfo;
+import com.example.epidemicsituation.bean.RealTimeLocation;
+import com.example.epidemicsituation.bean.RiskInfo;
 import com.example.epidemicsituation.entity.LoginUserCallback;
 import com.example.epidemicsituation.entity.LoginUserPost;
 import com.example.epidemicsituation.entity.PoisArea;
@@ -59,4 +61,8 @@ public interface ApiService {
     @Headers({"Content-type:application/json;charset=UTF-8"})
     @POST("/core/listSickdata")
     Observable<PersonalTraInfo> getPersonalTraInfo(@Body PerTraReqInfo personalTraInfo);
+
+    @Headers({"Content-type:application/json;charset=UTF-8"})
+    @POST("/core/risk")
+    Observable<RiskInfo> uploadLocationInfo(@Body RealTimeLocation realTimeLocation);
 }

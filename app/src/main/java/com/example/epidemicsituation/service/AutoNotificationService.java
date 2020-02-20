@@ -1,4 +1,4 @@
-package com.example.epidemicsituation;
+package com.example.epidemicsituation.service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -14,6 +14,8 @@ import android.os.SystemClock;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.epidemicsituation.App;
+import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.Utils.ACache;
 import com.example.epidemicsituation.Utils.OperationUtils;
 import com.example.epidemicsituation.bean.HistoryInfo;
@@ -92,7 +94,7 @@ public class AutoNotificationService extends Service {
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
                                         .build();
-                                manager.notify(1,notification);
+                                manager.notify(2,notification);
                             }else {
                                 //弹窗
                                 SuspiciousDialog suspiciousDialog = new SuspiciousDialog(App.getContext());
