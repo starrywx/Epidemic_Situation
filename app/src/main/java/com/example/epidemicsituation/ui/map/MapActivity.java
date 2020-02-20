@@ -34,9 +34,10 @@ import com.amap.api.maps.model.WeightedLatLng;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.example.epidemicsituation.Constants;
+import com.example.epidemicsituation.service.AutoNotificationService;
 import com.example.epidemicsituation.App;
 import com.example.epidemicsituation.Base.BaseActivity;
-import com.example.epidemicsituation.Constants;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.adapter.AdapterItemClick;
 import com.example.epidemicsituation.service.LocationService;
@@ -101,6 +102,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     private boolean isFirst = true;
 
     private static final String TIME_FORMAT = "{0}-{1}-{2} {3}:00:00";
+    Intent suspiciousIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,12 +117,13 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         //打开定位
         openLocation();
         mAmap.clear();
-
         present = new MapPresent();
         present.bindView(this);
 
         //启动前台服务
         if (!App.isIsStartingService()) {
+            suspiciousIntent = new Intent(this, AutoNotificationService.class);
+            startService(suspiciousIntent);
             Intent intent = new Intent(this, LocationService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(intent);
@@ -203,6 +206,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         super.onDestroy();
         mapMv.onDestroy();
         present.unBind();
+        this.stopService(suspiciousIntent);
     }
 
     @Override

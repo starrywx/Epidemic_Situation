@@ -148,9 +148,12 @@ public class LocationService extends Service implements AMapLocationListener {
 
                     @Override
                     public void onNext(RiskInfo riskInfo) {
-                        Intent intent = new Intent(LocationService.this, RealTimeRiskDialogActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+                        if (riskInfo != null && riskInfo.isData()) {
+                            Intent intent = new Intent(LocationService.this, RealTimeRiskDialogActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+
                         Log.d(TAG, "code:" + riskInfo.getCode() + "\n" + "data:" + riskInfo.isData());
                     }
 

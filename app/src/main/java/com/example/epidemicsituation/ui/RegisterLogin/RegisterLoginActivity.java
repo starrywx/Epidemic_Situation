@@ -26,6 +26,7 @@ import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.Constants;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.entity.LoginUserPost;
+import com.example.epidemicsituation.ui.history.HistoryActivity;
 import com.example.epidemicsituation.ui.map.MapActivity;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
