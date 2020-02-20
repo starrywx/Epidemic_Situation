@@ -14,6 +14,11 @@ import com.example.epidemicsituation.Utils.CrashCatchUtil;
  */
 public class App extends Application {
 
+    /**
+     * 服务是否启动中
+     */
+    private static boolean isStartingService;
+
     public App(){
         super();
     }
@@ -35,7 +40,7 @@ public class App extends Application {
     }
 
     private void initCrashCatchHandler(){
-        CrashCatchUtil.getInstance().setCrashHandler(new CrashCatchUtil.CrashHandler() {
+        /*CrashCatchUtil.getInstance().setCrashHandler(new CrashCatchUtil.CrashHandler() {
             @Override
             public void handlerException(Thread t, Throwable e) {
                  //发生了未catch的异常，执行重启
@@ -46,7 +51,15 @@ public class App extends Application {
                 }
 
             }
-        });
+        });*/
 
+    }
+
+    public static boolean isIsStartingService() {
+        return isStartingService;
+    }
+
+    public static void setIsStartingService(boolean isStartingService) {
+        App.isStartingService = isStartingService;
     }
 }

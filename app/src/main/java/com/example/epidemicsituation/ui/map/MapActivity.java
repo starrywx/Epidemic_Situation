@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,9 +32,11 @@ import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.model.TileOverlayOptions;
 import com.amap.api.maps.model.WeightedLatLng;
 import com.blankj.utilcode.util.ToastUtils;
+import com.example.epidemicsituation.App;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.adapter.AdapterItemClick;
+import com.example.epidemicsituation.service.LocationService;
 import com.example.epidemicsituation.ui.dialog.ClickConfig;
 import com.example.epidemicsituation.ui.dialog.LogOutDialog;
 import com.example.epidemicsituation.ui.dialog.RequestPermissionsDialog;
@@ -110,6 +113,17 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
 
         present = new MapPresent();
         present.bindView(this);
+
+        //启动前台服务
+        if (!App.isIsStartingService()) {
+            Intent intent = new Intent(this, LocationService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent);
+            }else {
+                startService(intent);
+            }
+            App.setIsStartingService(true);
+        }
     }
 
 //    @Override
