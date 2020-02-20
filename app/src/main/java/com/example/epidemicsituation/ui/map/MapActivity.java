@@ -32,6 +32,7 @@ import com.amap.api.maps.model.TileOverlayOptions;
 import com.amap.api.maps.model.WeightedLatLng;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.example.epidemicsituation.AutoNotificationService;
 import com.example.epidemicsituation.Base.BaseActivity;
 import com.example.epidemicsituation.Constants;
 import com.example.epidemicsituation.R;
@@ -96,6 +97,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
     private boolean isFirst = true;
 
     private static final String TIME_FORMAT = "{0}-{1}-{2} {3}:00:00";
+    Intent suspiciousIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +112,8 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         //打开定位
         openLocation();
         mAmap.clear();
-
+        suspiciousIntent = new Intent(this, AutoNotificationService.class);
+        this.startService(suspiciousIntent);
         present = new MapPresent();
         present.bindView(this);
     }
@@ -187,6 +190,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
         super.onDestroy();
         mapMv.onDestroy();
         present.unBind();
+        this.stopService(suspiciousIntent);
     }
 
     @Override
