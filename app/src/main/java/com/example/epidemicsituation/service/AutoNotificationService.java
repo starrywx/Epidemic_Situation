@@ -47,7 +47,9 @@ public class AutoNotificationService extends Service {
             String channelName = "接触历史预警";
             NotificationChannel channel = new NotificationChannel(channelId,channelName, NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
     }
 
@@ -87,7 +89,7 @@ public class AutoNotificationService extends Service {
                     public void onNext(HistoryInfo historyInfo) {
                         /* 对比本次和上一次的历史，若相同则不提示，不相同则提示 */
                         if(historyInfo!=null){
-                            if(sharedPreferences.getInt("historySize",0)==0 || sharedPreferences.getInt("historySize",0)!=historyInfo.getData().size()){
+                            if(sharedPreferences.getInt("historySize",0)!=0 && sharedPreferences.getInt("historySize",0)!=historyInfo.getData().size()){
                                 //第一次比较
                                 if(OperationUtils.isBackground(App.getContext())){
                                     //通知
@@ -99,7 +101,9 @@ public class AutoNotificationService extends Service {
                                             .setWhen(System.currentTimeMillis())
                                             .setAutoCancel(true)
                                             .build();
-                                    manager.notify(2,notification);
+                                    if (manager != null) {
+                                        manager.notify(2,notification);
+                                    }
                                 }else {
                                     //弹窗
                                     Intent intent = new Intent(AutoNotificationService.this, SuspiciousDialog.class);

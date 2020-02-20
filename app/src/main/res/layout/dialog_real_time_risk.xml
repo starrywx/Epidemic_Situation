@@ -40,14 +40,14 @@
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="您附近存在感染患者或者密切接触的人"
             android:textColor="#EA6F6F"
             android:textSize="16sp" />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="即将有感染风险，请不要近距离接触"
             android:textColor="#EA6F6F"

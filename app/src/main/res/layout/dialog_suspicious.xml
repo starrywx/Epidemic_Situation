@@ -32,14 +32,14 @@
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="经分析，您为新冠患者的密切接触者"
             android:textColor="#EA6F6F"
             android:textSize="16sp" />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text=" 请注意身体情况并居家隔离观察"
             android:textColor="#EA6F6F"
