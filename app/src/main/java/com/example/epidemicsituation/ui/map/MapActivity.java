@@ -282,7 +282,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
      */
     private void closePersonalTrajectory() {
         isPersonalTrajectory = false;
-
+        personalTrajectoryIv.setImageResource(R.mipmap.ic_personal_trajectory);
         clearMap();
     }
 

@@ -90,6 +90,7 @@ public class MapPresent implements MapContract.MapPresent {
                         view.setPerTraFalse();
                         ToastUtils.showShort("网络异常");
                         view.hidLoading();
+
                     }
 
                     @Override
