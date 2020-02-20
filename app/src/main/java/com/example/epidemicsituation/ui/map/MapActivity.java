@@ -31,6 +31,7 @@ import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.model.TileOverlayOptions;
 import com.amap.api.maps.model.WeightedLatLng;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.App;
@@ -39,6 +40,7 @@ import com.example.epidemicsituation.Constants;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.adapter.AdapterItemClick;
 import com.example.epidemicsituation.service.LocationService;
+import com.example.epidemicsituation.ui.RegisterLogin.RegisterLoginActivity;
 import com.example.epidemicsituation.ui.dialog.ClickConfig;
 import com.example.epidemicsituation.ui.dialog.LogOutDialog;
 import com.example.epidemicsituation.ui.dialog.RequestPermissionsDialog;
@@ -261,6 +263,10 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
                     @Override
                     public void onClick(int position) {
                         //退出登录
+                        if(SPUtils.getInstance().contains(Constants.USER_AUTHORIZATION)) {
+                            SPUtils.getInstance().put(Constants.USER_AUTHORIZATION , "");
+                        }
+                        ActivityUtils.startActivity(RegisterLoginActivity.class);
                         finish();
                     }
                 });
