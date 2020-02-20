@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="299dp"
+    android:layout_height="246dp"
+    android:background="@drawable/alert_bg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="11dp"
+        android:text="提示"
+        android:textColor="#5CA2FA"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/dialog_real_time_risk_imv_delete"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_alignParentEnd="true"
+        android:src="@mipmap/delete" />
+
+    <ImageView
+        android:layout_width="161dp"
+        android:layout_height="126dp"
+        android:layout_marginTop="38dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/health"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="18dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:text="您附近存在感染患者或者密切接触的人"
+            android:textColor="#EA6F6F"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:text="即将有感染风险，请不要近距离接触"
+            android:textColor="#EA6F6F"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
