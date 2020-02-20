@@ -3,7 +3,11 @@ package com.example.epidemicsituation;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Utils.CrashCatchUtil;
 
@@ -34,19 +38,23 @@ public class App extends Application {
         return context;
     }
 
+    /**
+     * 初始化App崩溃异常捕捉
+     * 指定运行版本：release
+     */
     private void initCrashCatchHandler(){
-        CrashCatchUtil.getInstance().setCrashHandler(new CrashCatchUtil.CrashHandler() {
-            @Override
-            public void handlerException(Thread t, Throwable e) {
-                 //发生了未catch的异常，执行重启
-                Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
-                if (LaunchIntent != null) {
-                    LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(LaunchIntent);
+        if(! AppUtils.isAppDebug()) {
+            CrashCatchUtil.getInstance().setCrashHandler(new CrashCatchUtil.CrashHandler() {
+                @Override
+                public void handlerException(Thread t, Throwable e) {
+                    //app 在后台运行发生了崩溃，关闭所有Activity，bindService的服务被销毁
+                    //杀掉进程，执行重启
+                    if(! AppUtils.isAppForeground()) {
+                        ActivityUtils.finishAllActivities();
+                        AppUtils.relaunchApp(true);
+                    }
                 }
-
-            }
-        });
-
+            });
+        }
     }
 }
