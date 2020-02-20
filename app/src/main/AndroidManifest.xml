@@ -27,32 +27,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <service
             android:name=".service.AutoNotificationService"
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity
-            android:name=".ui.SplashActivity"
-            android:theme="@style/SplashThemeLayer">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <service
             android:name=".service.LocationService"
             android:enabled="true"
             android:exported="true"
-            android:usesCleartextTraffic="true"></service>
+            android:usesCleartextTraffic="true">
+        </service>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="acf0be03d5e267b67734e191ef8663b1" />
 
         <service android:name="com.amap.api.location.APSService" />
+
+        <!--首屏启动页Activity-->
+        <activity android:name = ".ui.SplashActivity"
+                  android:theme="@style/SplashThemeLayer">
+            <intent-filter>
+                <action android:name = "android.intent.action.MAIN" />
+                <action android:name = "android.intent.action.VIEW" />
+                <category android:name = "android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <activity
             android:name=".ui.map.MapActivity"

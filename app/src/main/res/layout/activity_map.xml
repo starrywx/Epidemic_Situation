@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="抗疫系统"
             android:textColor="#ff5ca2fa"
-            android:textSize="19sp"
+            android:textSize="18sp"
             android:layout_centerInParent="true"/>
 
         <ImageView

@@ -48,19 +48,18 @@ public class App extends Application {
      * 指定运行版本：release
      */
     private void initCrashCatchHandler(){
-        /*CrashCatchUtil.getInstance().setCrashHandler(new CrashCatchUtil.CrashHandler() {
-            @Override
-            public void handlerException(Thread t, Throwable e) {
-                 //发生了未catch的异常，执行重启
-                Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
-                if (LaunchIntent != null) {
-                    LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(LaunchIntent);
+        if(! AppUtils.isAppDebug()) {
+            CrashCatchUtil.getInstance().setCrashHandler(new CrashCatchUtil.CrashHandler() {
+                @Override
+                public void handlerException(Thread t, Throwable e) {
+                    //app 在后台运行发生了崩溃，关闭所有Activity，bindService的服务被销毁
+                    //杀掉进程，执行重启
+                    if(! AppUtils.isAppForeground()) {
+                        AppUtils.relaunchApp(true);
+                    }
                 }
-
-            }
-        });*/
-
+            });
+        }
     }
 
     public static boolean isIsStartingService() {

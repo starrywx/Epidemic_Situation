@@ -7,10 +7,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 
 import androidx.core.app.NotificationCompat;
 
@@ -24,6 +26,8 @@ import com.example.epidemicsituation.ui.dialog.SuspiciousDialog;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -31,13 +35,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AutoNotificationService extends Service {
 
-    private ACache aCache;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        aCache= ACache.get(App.getContext());
-        aCache.put("history","");
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getContext());
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             String channelId = "suspicious";
             String channelName = "接触历史预警";
@@ -81,28 +85,32 @@ public class AutoNotificationService extends Service {
 
                     @Override
                     public void onNext(HistoryInfo historyInfo) {
-                        //对比本次和上一次的历史，若相同则不提示，不相同则提示
-                        if(aCache.getAsJSONArray("history").equals("")||!aCache.getAsJSONArray("history").equals(historyInfo.getData())){
-                            //第一次比较
-                            if(OperationUtils.isBackground(App.getContext())){
-                                //通知
-                                NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-                                Notification notification = new NotificationCompat.Builder(App.getContext(),"suspicious")
-                                        .setContentText("您为新冠患者的密切接触者！点击查看详情。")
-                                        .setSmallIcon(R.mipmap.logo)
-                                        .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.alert))
-                                        .setWhen(System.currentTimeMillis())
-                                        .setAutoCancel(true)
-                                        .build();
-                                manager.notify(2,notification);
-                            }else {
-                                //弹窗
-                                SuspiciousDialog suspiciousDialog = new SuspiciousDialog(App.getContext());
-                                suspiciousDialog.show();
+                        /* 对比本次和上一次的历史，若相同则不提示，不相同则提示 */
+                        if(historyInfo!=null){
+                            if(sharedPreferences.getInt("historySize",0)==0 || sharedPreferences.getInt("historySize",0)!=historyInfo.getData().size()){
+                                //第一次比较
+                                if(OperationUtils.isBackground(App.getContext())){
+                                    //通知
+                                    NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                                    Notification notification = new NotificationCompat.Builder(App.getContext(),"suspicious")
+                                            .setContentText("您为新冠患者的密切接触者！点击查看详情。")
+                                            .setSmallIcon(R.mipmap.logo)
+                                            .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.alert))
+                                            .setWhen(System.currentTimeMillis())
+                                            .setAutoCancel(true)
+                                            .build();
+                                    manager.notify(2,notification);
+                                }else {
+                                    //弹窗
+                                    SuspiciousDialog suspiciousDialog = new SuspiciousDialog(App.getContext());
+                                    suspiciousDialog.show();
+                                }
+                                editor = sharedPreferences.edit();
+                                editor.putInt("historySize",historyInfo.getData().size());
+                                editor.apply();
                             }
-                            aCache.clear();
-                            aCache.put("history", (JSONArray) historyInfo.getData());
                         }
+
                     }
 
                     @Override

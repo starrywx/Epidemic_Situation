@@ -35,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -235,7 +236,6 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
                     //密码与确认密码相同，发起请求--注册
                     mPresenter.register(phoneNumber , password);
                 }
-
             }
         });
     }
