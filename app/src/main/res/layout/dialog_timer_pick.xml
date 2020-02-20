@@ -167,7 +167,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="确认"
-            android:textColor="#ff888888"
+            android:textColor="@color/line_selected"
             android:textSize="18sp"
             android:gravity="center_horizontal"/>
 

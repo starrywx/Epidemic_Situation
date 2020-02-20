@@ -31,9 +31,11 @@ import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.model.TileOverlayOptions;
 import com.amap.api.maps.model.WeightedLatLng;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.App;
 import com.example.epidemicsituation.Base.BaseActivity;
+import com.example.epidemicsituation.Constants;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.adapter.AdapterItemClick;
 import com.example.epidemicsituation.service.LocationService;
@@ -100,6 +102,7 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
@@ -234,7 +237,6 @@ public class MapActivity extends BaseActivity implements AMap.OnMyLocationChange
                 }*/
                 break;
             case R.id.iv_personal_trajectory:
-                ToastUtils.showShort("暂未开放！");
                 if (isHeatMapOpen) {
                     ToastUtils.showShort("请先关闭热力图功能");
                     return;

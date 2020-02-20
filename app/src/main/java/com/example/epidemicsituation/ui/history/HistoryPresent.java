@@ -1,5 +1,10 @@
 package com.example.epidemicsituation.ui.history;
 
+import com.example.epidemicsituation.bean.HistoryInfo;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 public class HistoryPresent implements HistoryContract.HistoryPresent {
 
     private HistoryContract.HistoryModel model;
@@ -8,7 +13,29 @@ public class HistoryPresent implements HistoryContract.HistoryPresent {
     @Override
     public void getHistoryInfo() {
         if(model!=null){
-            model.getHistoryInfo();
+            model.getHistoryInfo().subscribe(new Observer<HistoryInfo>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+
+                }
+
+                @Override
+                public void onNext(HistoryInfo historyInfo) {
+                    if(historyInfo.getCode()==1&&historyInfo.getData()!=null){
+                        view.showHistoryList(historyInfo.getData());
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            });
         }
     }
 

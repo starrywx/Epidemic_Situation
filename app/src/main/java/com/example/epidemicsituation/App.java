@@ -3,7 +3,11 @@ package com.example.epidemicsituation;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Utils.CrashCatchUtil;
 
@@ -39,6 +43,10 @@ public class App extends Application {
         return context;
     }
 
+    /**
+     * 初始化App崩溃异常捕捉
+     * 指定运行版本：release
+     */
     private void initCrashCatchHandler(){
         /*CrashCatchUtil.getInstance().setCrashHandler(new CrashCatchUtil.CrashHandler() {
             @Override

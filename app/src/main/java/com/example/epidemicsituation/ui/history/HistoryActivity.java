@@ -26,7 +26,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryContrac
     ImageView activityHistoryBack;
     @BindView(R.id.history_rv)
     RecyclerView historyRv;
-    private List<HistoryInfo.DataBean> dataBeanList = new ArrayList<>();
+    private List<HistoryInfo.DataBean> mDataBeanList = new ArrayList<>();
     private HistoryAdapter adapter;
     private HistoryContract.HistoryPresent present;
 
@@ -38,6 +38,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryContrac
         present.attachView(this);
         ButterKnife.bind(this);
         initList();
+        present.getHistoryInfo();
 //        adapter.seOnItemClickListener(new AdapterItemClick() {
 //            @Override
 //            public void onClick(int position) {
@@ -62,9 +63,10 @@ public class HistoryActivity extends AppCompatActivity implements HistoryContrac
     }
 
     @Override
-    public void showHistoryList(HistoryInfo.DataBean dataBean) {
+    public void showHistoryList(List<HistoryInfo.DataBean> dataBeanList) {
         //数据来源暂未定
-        adapter=new HistoryAdapter(dataBeanList);
+        mDataBeanList=dataBeanList;
+        adapter=new HistoryAdapter(mDataBeanList,this);
         historyRv.setAdapter(adapter);
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EpidemicSituation</string>
+    <string name = "app_name">EpidemicSituation</string>
 
     <string name = "dialog_request_permission_title">提示</string>
     <string name = "dialog_request_permission_content">本APP采集的数据仅用于疫情防控和支撑研究，不用于其他用途。您是否同意使用您的定位数据并加入应用白名单？同意则开始运行，不同意则退出。</string>

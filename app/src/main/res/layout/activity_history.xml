@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="28dp"
-        android:layout_marginTop="37dp">
+        android:layout_marginTop="43dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="28dp"
@@ -19,23 +19,23 @@
             android:text="历史记录"
             android:textStyle="normal"
             android:textColor="#FFFFFF"
-            android:textSize="22sp"/>
+            android:textSize="23sp"/>
 
         <ImageView
             android:id="@+id/activity_history_back"
-            android:layout_width="11dp"
-            android:layout_height="17dp"
+            android:layout_width="13dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="23dp"
             android:src="@mipmap/arrowhead"/>
     </RelativeLayout>
 
 
     <RelativeLayout
-        android:layout_width="308dp"
+        android:layout_width="359dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="111dp"
+        android:layout_marginTop="106dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp">
 

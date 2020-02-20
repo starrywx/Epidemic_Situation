@@ -1,5 +1,6 @@
 package com.example.epidemicsituation.net;
 
+import com.example.epidemicsituation.bean.HistoryInfo;
 import com.example.epidemicsituation.bean.PerTraReqInfo;
 import com.example.epidemicsituation.bean.PersonalTraInfo;
 import com.example.epidemicsituation.bean.RealTimeLocation;
@@ -48,6 +49,14 @@ public interface ApiService {
 
     @GET("https://oss.mapmiao.com/others/ncov/data.json?timestamp=999999999999999")
     Observable<ResponseBody> getPoisArea();
+
+
+    /**
+     * 查看历史记录
+     * @return HistoryInfo
+     */
+    @GET("/core/contact")
+    Observable<HistoryInfo> getHistoryInfo();
 
     @Headers({"Content-type:application/json;charset=UTF-8"})
     @POST("/core/listSickdata")

@@ -19,9 +19,11 @@ import androidx.cardview.widget.CardView;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.SnackbarUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.epidemicsituation.Base.BaseActivity;
+import com.example.epidemicsituation.Constants;
 import com.example.epidemicsituation.R;
 import com.example.epidemicsituation.entity.LoginUserPost;
 import com.example.epidemicsituation.ui.map.MapActivity;
@@ -96,6 +98,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         mContentView = LayoutInflater.from(this).inflate(R.layout.activity_register_login, null);
         setContentView(mContentView);
@@ -109,13 +112,17 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
     @Override
     protected void onStart() {
         super.onStart();
-        mPresenter.attachView(this);
+        if(mPresenter != null) {
+            mPresenter.attachView(this);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView();
+        if(mPresenter != null) {
+            mPresenter.detachView();
+        }
         if(mDisposable != null) {
             mDisposable.dispose();
         }
@@ -320,6 +327,7 @@ public class RegisterLoginActivity extends BaseActivity implements RegisterLogin
     public void loginSuccess() {
         //跳转地图页
         startActivity(new Intent(this, MapActivity.class));
+        finish();
     }
 
     @Override
